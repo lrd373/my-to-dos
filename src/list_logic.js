@@ -1,16 +1,7 @@
 import {listContainer, projectButtonContainer, setHeaderText} from "./display";
 
-
-
-// Add ability to have multiple "Projects"
-// Header displays projects array
-// User clicks project name button
-// check if list of such name exists in local storage
-// if so, set current list to that list
-// all add/remove and display functions work with the var current list
-// on first page load, current list = My To-Dos default list
-
-// Add buttons to add remove entire Projects (to do lists in local storage)
+// Create "My To-Dos" default list from the start (maybe from index?)
+// Save projects array to local storage
 
 const generateId = (str1, str2) => {
     let id = "";
@@ -94,6 +85,7 @@ const myProjects = (() => {
         _projects.push(listObj);
         projectButtonContainer();
     }
+
 
     const deleteProject = (id) => {
         let projectIndex = _projects.findIndex(project => project.id == id);
