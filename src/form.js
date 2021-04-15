@@ -1,4 +1,4 @@
-import myList from "./list_logic";
+import {myList} from "./list_logic";
 
 const itemForm = (() => {
     const content = document.querySelector("#content");

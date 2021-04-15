@@ -1,4 +1,4 @@
-import myList from "./list_logic";
+import {myList} from "./list_logic";
 
 const listItemHTML = (listItemObj) => {
     let id = listItemObj.itemId;
