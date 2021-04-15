@@ -25,6 +25,31 @@ const generateId = (str1, str2) => {
     return id;
 }
 
+const storageAvailable = (type) => {
+    var storage;
+    try {
+        storage = window[type];
+        var x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch(e) {
+        return e instanceof DOMException && (
+            // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            (storage && storage.length !== 0);
+    }
+}
+
 const listItemFactory = (title, description, dueDate, priority) => {
     
     
@@ -37,33 +62,15 @@ const listItemFactory = (title, description, dueDate, priority) => {
     return {itemId, itemTitle, itemDescription, itemDueDate, itemPriority}
 };
 
+
+
 const myProjects = (() => {
     let _projects = [];
-
-    // const storageAvailable = (type) => {
-    //     var storage;
-    //     try {
-    //         storage = window[type];
-    //         var x = '__storage_test__';
-    //         storage.setItem(x, x);
-    //         storage.removeItem(x);
-    //         return true;
-    //     }
-    //     catch(e) {
-    //         return e instanceof DOMException && (
-    //             // everything except Firefox
-    //             e.code === 22 ||
-    //             // Firefox
-    //             e.code === 1014 ||
-    //             // test name field too, because code might not be present
-    //             // everything except Firefox
-    //             e.name === 'QuotaExceededError' ||
-    //             // Firefox
-    //             e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
-    //             // acknowledge QuotaExceededError only if there's something already stored
-    //             (storage && storage.length !== 0);
-    //     }
-    // }
+    let _currentProject = {
+        id: generateId("m"),
+        name: "My To-Dos",
+        list: []
+    };
 
     // if (storageAvailable("localStorage") && localStorage.getItem("projects")) {
     //     console.log("Local storage available");
@@ -93,10 +100,6 @@ const myProjects = (() => {
         _projects.splice(projectIndex,1);
     }
 
-    const setCurrentProject = () => {
-
-    }
-
     const getProject = (id) => {
         let theProject = _projects.find(project => project.id == id);
         return theProject;
@@ -106,63 +109,59 @@ const myProjects = (() => {
         return _projects;
     }
 
-    return {getProject, getProjects, addProject, deleteProject, setCurrentProject}
+    const getCurrentProject = () => {
+        // returns Project obj =
+        // {id, name, list array}
+        return _currentProject;        
+    }
+
+    const setCurrentProject = (id) => {
+        _currentProject = getProject(id);
+    }
+
+    return {
+            getProject, 
+            getProjects, 
+            addProject, 
+            deleteProject, 
+            getCurrentProject, 
+            setCurrentProject
+        }
 
 })();
 
 const myList = (() => {
-    const storageAvailable = (type) => {
-        var storage;
-        try {
-            storage = window[type];
-            var x = '__storage_test__';
-            storage.setItem(x, x);
-            storage.removeItem(x);
-            return true;
-        }
-        catch(e) {
-            return e instanceof DOMException && (
-                // everything except Firefox
-                e.code === 22 ||
-                // Firefox
-                e.code === 1014 ||
-                // test name field too, because code might not be present
-                // everything except Firefox
-                e.name === 'QuotaExceededError' ||
-                // Firefox
-                e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
-                // acknowledge QuotaExceededError only if there's something already stored
-                (storage && storage.length !== 0);
-        }
-    }
-
-    let _list = [];
     
-    if (storageAvailable("localStorage") && localStorage.getItem("_list")) {
-        console.log("Local storage available");
-        _list = JSON.parse(localStorage.getItem("_list"));
-        console.log("After get");
-        console.log(_list);
-    } else {
-        console.log("No local storage available");
-    }
 
-    const setLocalStorage = () => {
-        console.log("trying to set local storage");
-        if (storageAvailable("localStorage")) {
-            localStorage.setItem("_list", JSON.stringify(_list));
-        }
-    }
+    let currentProject = myProjects.getCurrentProject();
+    let _list = currentProject.list;
+    
+    // if (storageAvailable("localStorage") && localStorage.getItem("_list")) {
+    //     console.log("Local storage available");
+    //     _list = JSON.parse(localStorage.getItem("_list"));
+    //     console.log("After get");
+    //     console.log(_list);
+    // } else {
+    //     console.log("No local storage available");
+    // }
+
+    // const setLocalStorage = () => {
+    //     console.log("trying to set local storage");
+    //     if (storageAvailable("localStorage")) {
+    //         localStorage.setItem("_list", JSON.stringify(_list));
+    //     }
+    // }
 
     const addToList = (title, description, dueDate, priority) => {
         let newItem = listItemFactory(title, description, dueDate, priority);
+        
+        // push newItem to currentProject's list property
         _list.push(newItem);
-        setLocalStorage();
+        // setLocalStorage();
         listContainer();
     }
 
     const removeFromList = (id) => {
-        console.log("remove triggered");
         let itemIndex = _list.findIndex(itemObj => itemObj.itemId == id);
 
         if (itemIndex !== -1) {
