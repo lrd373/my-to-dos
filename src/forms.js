@@ -132,12 +132,12 @@ const projectForm = (() => {
         submitButton.textContent = "Create project";
         submitButton.addEventListener("click", () => {
             console.log("clicked!!!");
-            // myProjects.addProject(
-            //     {
-            //         name: nameInput.value,
-            //         list: []
-            //     }
-            // );
+            myProjects.addProject(
+                {
+                    name: nameInput.value,
+                    list: []
+                }
+            );
             projectForm.closeForm();
         });
 
