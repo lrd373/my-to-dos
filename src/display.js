@@ -70,7 +70,11 @@ const projectButtonContainer = () => {
         projectButton.classList.add("project-button");
         projectButton.setAttribute("type", "button");
         projectButton.textContent = project.name;
+
         // add head to project functionality here
+        projectButton.addEventListener("click", () =>{
+            myProjects.setCurrentProject(project.id);
+        });
 
         projectButtonDiv.appendChild(projectButton);
     }
@@ -78,7 +82,9 @@ const projectButtonContainer = () => {
     let projects = myProjects.getProjects();
 
     projects.forEach(project => {
-        createProjectButton(project);
+        if (project != myProjects.getCurrentProject()) {
+            createProjectButton(project);
+        } 
     });
 
     header.appendChild(projectButtonDiv);
@@ -91,6 +97,7 @@ const listContainer = () => {
 
     if (listDiv) {
         while (listDiv.firstChild) {
+            console.log("tried to empty list");
             listDiv.removeChild(listDiv.firstChild);
         }
     } else {
@@ -100,6 +107,8 @@ const listContainer = () => {
     listDiv.setAttribute("id", "list-container");
 
     let list = myList.getList();
+    console.log("What display thinks is current list:");
+    console.log(list);
 
     list.forEach(item => {
         listDiv.appendChild(listItemHTML(item));
@@ -108,4 +117,9 @@ const listContainer = () => {
     content.appendChild(listDiv);
 };
 
-export {listContainer, projectButtonContainer};
+const setHeaderText = (str) => {
+    const headerText = document.querySelector("h1");
+    headerText.textContent = str;
+}
+
+export {listContainer, projectButtonContainer, setHeaderText};

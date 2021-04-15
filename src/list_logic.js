@@ -1,4 +1,4 @@
-import {listContainer, projectButtonContainer} from "./display";
+import {listContainer, projectButtonContainer, setHeaderText} from "./display";
 
 
 
@@ -117,6 +117,11 @@ const myProjects = (() => {
 
     const setCurrentProject = (id) => {
         _currentProject = getProject(id);
+        console.log("Current project is now:");
+        console.log(_currentProject);
+        setHeaderText(_currentProject.name);
+        projectButtonContainer();
+        listContainer();
     }
 
     return {
@@ -132,9 +137,6 @@ const myProjects = (() => {
 
 const myList = (() => {
     
-
-    let currentProject = myProjects.getCurrentProject();
-    let _list = currentProject.list;
     
     // if (storageAvailable("localStorage") && localStorage.getItem("_list")) {
     //     console.log("Local storage available");
@@ -156,7 +158,9 @@ const myList = (() => {
         let newItem = listItemFactory(title, description, dueDate, priority);
         
         // push newItem to currentProject's list property
-        _list.push(newItem);
+        getList().push(newItem);
+        console.log("Updated project");
+        console.log(myProjects.getCurrentProject());
         // setLocalStorage();
         listContainer();
     }
@@ -165,14 +169,16 @@ const myList = (() => {
         let itemIndex = _list.findIndex(itemObj => itemObj.itemId == id);
 
         if (itemIndex !== -1) {
-            _list.splice(itemIndex,1)
+            getList().splice(itemIndex,1)
         };
         console.log(_list);
-        setLocalStorage();
+        // setLocalStorage();
         listContainer();
     }
 
     const getList = () => {
+        let currentProject = myProjects.getCurrentProject();
+        let _list = currentProject.list;
         return _list;
     }
 

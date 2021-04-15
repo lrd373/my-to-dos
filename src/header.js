@@ -1,6 +1,5 @@
-import {projectButtonContainer} from "./display";
+
 import {itemForm, projectForm} from "./forms";
-import {myProjects} from "./list_logic";
 
 const content = document.querySelector("#content");
 
