@@ -1,4 +1,4 @@
-import {myList} from "./list_logic";
+import {myList, myProjects} from "./list_logic";
 
 const listItemHTML = (listItemObj) => {
     let id = listItemObj.itemId;
@@ -49,10 +49,44 @@ const listItemHTML = (listItemObj) => {
     return itemDiv;
 }; 
 
+const projectButtonContainer = () => {
+    const header = document.querySelector("header");
+
+    // Look for Div Container for Project Buttons
+    // If it exists, remove all existing project buttons
+    // If it doesn't exist, create it
+    let projectButtonDiv = document.querySelector("#project-button-container");
+    if (projectButtonDiv) {
+        while(projectButtonDiv.firstChild) {
+            projectButtonDiv.removeChild(projectButtonDiv.firstChild);
+        }
+    } else {
+        projectButtonDiv = document.createElement("div");
+        projectButtonDiv.setAttribute("id", "project-button-container");
+    }
+
+    const createProjectButton = (project) => {
+        let projectButton = document.createElement("button");
+        projectButton.classList.add("project-button");
+        projectButton.setAttribute("type", "button");
+        projectButton.textContent = project.name;
+        // add head to project functionality here
+
+        projectButtonDiv.appendChild(projectButton);
+    }
+
+    let projects = myProjects.getProjects();
+
+    projects.forEach(project => {
+        createProjectButton(project);
+    });
+
+    header.appendChild(projectButtonDiv);
+}
 
 const listContainer = () => {
     const content = document.querySelector("#content");
-    
+
     let listDiv = document.querySelector("#list-container");
 
     if (listDiv) {
@@ -74,4 +108,4 @@ const listContainer = () => {
     content.appendChild(listDiv);
 };
 
-export default listContainer;
+export {listContainer, projectButtonContainer};

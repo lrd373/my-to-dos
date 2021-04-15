@@ -1,4 +1,4 @@
-import listContainer from "./display_list";
+import {listContainer, projectButtonContainer} from "./display";
 
 
 
@@ -12,21 +12,21 @@ import listContainer from "./display_list";
 
 // Add buttons to add remove entire Projects (to do lists in local storage)
 
+const generateId = (str1, str2) => {
+    let id = "";
+    if (str1) {id += str1.charAt(0)}
+    if (str2) {id += str2.charAt(0)}
 
+    let rando1 = Math.ceil(Math.random() * 10000);
+    let rando2 = Math.ceil(Math.random() * 10000);
+    let result = rando1 * rando2;
+    id += result;
+
+    return id;
+}
 
 const listItemFactory = (title, description, dueDate, priority) => {
-    const generateId = (str1, str2) => {
-        let id = "";
-        if (str1) {id += str1.charAt(0)}
-        if (str2) {id += str2.charAt(0)}
     
-        let rando1 = Math.ceil(Math.random() * 10000);
-        let rando2 = Math.ceil(Math.random() * 10000);
-        let result = rando1 * rando2;
-        id += result;
-    
-        return id;
-    }
     
     let itemId = generateId(title, description);
     let itemTitle = title;
@@ -38,16 +38,7 @@ const listItemFactory = (title, description, dueDate, priority) => {
 };
 
 const myProjects = (() => {
-    let _projects = [
-        {
-            name: "bob",
-            list: [1,2,3]
-        },
-        {
-            name: "fred",
-            list: [1,2,3]
-        }
-    ];
+    let _projects = [];
 
     // const storageAvailable = (type) => {
     //     var storage;
@@ -81,24 +72,33 @@ const myProjects = (() => {
     //     console.log("No local storage available");
     // }
 
-    const addProject = (listObj) => {
-        // List obj is an obj with two properties:
-        // one key:value pair for the name of the project
+    const addProject = (name) => {
+        // List obj is an obj with three properties:
+        // id
+        // name of the project
         // an array --> the array of objs that represents that specific
         // to do list
+        let id = generateId(name);
+        let listObj = {
+            id: id,
+            name: name,
+            list: []
+        }
         _projects.push(listObj);
+        projectButtonContainer();
     }
 
-    const deleteProject = () => {
-
+    const deleteProject = (id) => {
+        let projectIndex = _projects.findIndex(project => project.id == id);
+        _projects.splice(projectIndex,1);
     }
 
     const setCurrentProject = () => {
 
     }
 
-    const getProject = (name) => {
-        let theProject = _projects.find(project => project.name == name);
+    const getProject = (id) => {
+        let theProject = _projects.find(project => project.id == id);
         return theProject;
     }
 

@@ -131,13 +131,8 @@ const projectForm = (() => {
         submitButton.setAttribute("type", "button");
         submitButton.textContent = "Create project";
         submitButton.addEventListener("click", () => {
-            console.log("clicked!!!");
-            myProjects.addProject(
-                {
-                    name: nameInput.value,
-                    list: []
-                }
-            );
+            myProjects.addProject(nameInput.value);
+            console.log(myProjects.getProjects());
             projectForm.closeForm();
         });
 
