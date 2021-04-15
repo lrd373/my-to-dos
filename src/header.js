@@ -1,4 +1,4 @@
-import itemForm from "./form";
+import {itemForm, projectForm} from "./forms";
 import {myProjects} from "./list_logic";
 
 const content = document.querySelector("#content");
@@ -6,6 +6,8 @@ const content = document.querySelector("#content");
 const showHeader = () => {
     
     itemForm.generateForm();
+
+    let header = document.createElement("header");
 
     let headerDiv = document.createElement("div");
     headerDiv.setAttribute("id","header-container");
@@ -22,7 +24,8 @@ const showHeader = () => {
     });
     headerDiv.appendChild(addButton);
 
-    content.appendChild(headerDiv);
+    header.appendChild(headerDiv);
+
 
     let projects = myProjects.getProjects();
 
@@ -39,6 +42,15 @@ const showHeader = () => {
         projectButtonContainer.setAttribute("id", "project-button-container");
     }
 
+    projectForm.generateForm();
+    let addProjectButton = document.createElement("button");
+    addProjectButton.setAttribute("id", "add-project-button");
+    addProjectButton.textContent = "+";
+    addProjectButton.addEventListener("click", () => {
+       projectForm.launchForm();
+    });
+    projectButtonContainer.appendChild(addProjectButton);
+
     const createProjectButton = (project) => {
         let projectButton = document.createElement("button");
         projectButton.classList.add("project-button");
@@ -53,7 +65,9 @@ const showHeader = () => {
         createProjectButton(project);
     });
 
-    content.appendChild(projectButtonContainer);
+    header.appendChild(projectButtonContainer);
+
+    content.appendChild(header);
    
 };
 

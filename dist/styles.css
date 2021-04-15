@@ -1,6 +1,13 @@
 
+/****************** HEADER *******************/
+header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 50px;
+}
+
 /****************** FORM *******************/
-#form-container {
+#form-container, #project-form-container {
     display: none;
     text-align: left;
     display: none;
