@@ -18,7 +18,6 @@ const showHeader = () => {
     addButton.textContent = "+";
     addButton.addEventListener("click", () => {
         itemForm.launchForm();
-        console.log("clicked");
     });
     headerDiv.appendChild(addButton);
 

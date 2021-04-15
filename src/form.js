@@ -1,3 +1,4 @@
+import myList from "./list_logic";
 
 const itemForm = (() => {
     const content = document.querySelector("#content");
@@ -18,7 +19,7 @@ const itemForm = (() => {
         let exitButton = document.createElement("button");
         exitButton.setAttribute("id", "form-exit-button");
         exitButton.textContent = "x";
-        exitButton.addEventListener("click", itemForm.closeForm);
+        exitButton.addEventListener("click", closeForm);
         form.appendChild(exitButton);
 
 
@@ -73,7 +74,18 @@ const itemForm = (() => {
         form.appendChild(priorityList);
 
         let submitButton = document.createElement("button");
+        submitButton.setAttribute("type", "button");
         submitButton.textContent = "Add to list";
+        submitButton.addEventListener("click", () => {
+            myList.addToList(
+                titleInput.value,
+                description.value,
+                dueDate.value,
+                priorityList.value
+            );
+            itemForm.closeForm();
+        });
+
         form.appendChild(submitButton);
 
         formContainer.appendChild(form);

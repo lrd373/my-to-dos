@@ -1,12 +1,6 @@
-
+import listContainer from "./display_list";
 
 const listItemFactory = (title, description, dueDate, priority) => {
-    let _id = generateId(title, description);
-    let _title = title;
-    let _description = description;
-    let _dueDate = dueDate;
-    let _priority = priority;
-
     const generateId = (str1, str2) => {
         let id = "";
         if (str1) {id += str1.charAt(0)}
@@ -19,74 +13,85 @@ const listItemFactory = (title, description, dueDate, priority) => {
     
         return id;
     }
+    
+    let itemId = generateId(title, description);
+    let itemTitle = title;
+    let itemDescription = description;
+    let itemDueDate = dueDate;
+    let itemPriority = priority;
 
-    const getId = () => {
-        return _id;
-    }
-
-    const getTitle = () => {
-        return _title;
-    }
-
-    const setTitle = (str) => {
-        _title = str;
-    }
-
-    const getDescription = () => {
-        return _description;
-    }
-
-    const setDescription = (str) => {
-        _description = str;
-    }
-
-    const getDueDate = () => {
-        return _dueDate;
-    }
-
-    const setDueDate = (date) => {
-        _dueDate = date;
-    }
-
-    const getPriority = () => {
-        return _priority;
-    }
-
-    const setPriority = (str) => {
-        _priority = str;
-    }
-
-    return {getId,
-            getTitle, 
-            setTitle, 
-            getDescription, 
-            setDescription,
-            getDueDate,
-            setDueDate,
-            getPriority,
-            setPriority}
+    return {itemId, itemTitle, itemDescription, itemDueDate, itemPriority}
 };
 
 const myList = (() => {
+    const storageAvailable = (type) => {
+        var storage;
+        try {
+            storage = window[type];
+            var x = '__storage_test__';
+            storage.setItem(x, x);
+            storage.removeItem(x);
+            return true;
+        }
+        catch(e) {
+            return e instanceof DOMException && (
+                // everything except Firefox
+                e.code === 22 ||
+                // Firefox
+                e.code === 1014 ||
+                // test name field too, because code might not be present
+                // everything except Firefox
+                e.name === 'QuotaExceededError' ||
+                // Firefox
+                e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+                // acknowledge QuotaExceededError only if there's something already stored
+                (storage && storage.length !== 0);
+        }
+    }
+
     let _list = [];
+    
+    if (storageAvailable("localStorage") && localStorage.getItem("_list")) {
+        console.log("Local storage available");
+        _list = JSON.parse(localStorage.getItem("_list"));
+        console.log("After get");
+        console.log(_list);
+    } else {
+        console.log("No local storage available");
+    }
+
+    const setLocalStorage = () => {
+        console.log("trying to set local storage");
+        if (storageAvailable("localStorage")) {
+            localStorage.setItem("_list", JSON.stringify(_list));
+        }
+    }
 
     const addToList = (title, description, dueDate, priority) => {
         let newItem = listItemFactory(title, description, dueDate, priority);
         _list.push(newItem);
-    };
+        setLocalStorage();
+        listContainer();
+    }
 
     const removeFromList = (id) => {
-        let itemIndex = _list.find(item => item.getId() === id);
+        console.log("remove triggered");
+        let itemIndex = _list.findIndex(itemObj => itemObj.itemId == id);
+
         if (itemIndex !== -1) {
             _list.splice(itemIndex,1)
         };
-    };
+        console.log(_list);
+        setLocalStorage();
+        listContainer();
+    }
 
     const getList = () => {
         return _list;
     }
 
-    return {addToList, removeFromList, getList};
+    return {addToList, removeFromList, getList}
+
 })();
 
 export default myList;

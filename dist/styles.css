@@ -1,4 +1,5 @@
 
+/****************** FORM *******************/
 #form-container {
     display: none;
     text-align: left;
@@ -28,4 +29,27 @@
 
 input, label {
     display: block;
+}
+
+/****************** LIST *******************/
+
+#list-container > * {
+    margin: 5px;
+}
+
+.list-item-container {
+    display: flex;
+}
+
+.list-item-container > * {
+    margin: 0 5px;
+}
+
+.remove-item-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    width: 15px;
+    height: 20px;
 }
