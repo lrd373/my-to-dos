@@ -9,22 +9,20 @@ const newItemForm = (() => {
     formContainer.classList.add("hide-form");
 
     const launchForm = () => {
-        formContainer.classList.add("show-form");
-        formContainer.classList.remove("hide-form");
+        formContainer.style.display = "block";
     }
     
     const closeForm = () => {
-        formContainer.classList.add("hide-form");
-        formContainer.classList.remove("show-form");
+        formContainer.style.display = "none";
     }
-
-        let exitButton = document.createElement("button");
-        exitButton.setAttribute("id", "form-exit-button");
-        exitButton.textContent = "x";
-        exitButton.addEventListener("click", closeForm);
-        formContainer.appendChild(exitButton);
-
+       
         let form = document.createElement("form");
+            let exitButton = document.createElement("button");
+            exitButton.setAttribute("id", "form-exit-button");
+            exitButton.textContent = "x";
+            exitButton.addEventListener("click", closeForm);
+            form.appendChild(exitButton);
+
 
             let titleLabel = document.createElement("label");
             titleLabel.setAttribute("for","title-input");
