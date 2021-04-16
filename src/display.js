@@ -8,46 +8,57 @@ const listItemHTML = (listItemObj) => {
     let title = listItemObj.itemTitle;
     let description = listItemObj.itemDescription;
     let dueDate = listItemObj.itemDueDate;
-    let priority = listItemObj.itemPriority;
-
 
     let itemDiv = document.createElement("div");
     itemDiv.classList.add("list-item-container");
     itemDiv.setAttribute("id", id);
 
-        let removeButton = document.createElement("button");
-        removeButton.classList.add("remove-item-button");
-        removeButton.textContent = "x";
-        removeButton.addEventListener("click", () => {
-            myList.removeFromList(id);
+        let itemTitle = document.createElement("h3");
+        itemTitle.classList.add("list-item-title");
+        itemTitle.textContent = title;
+
+        let itemDescription = document.createElement("p");
+        itemDescription.classList.add("list-item-description");
+        itemDescription.textContent = description;
+
+        let checkbox = document.createElement("span");
+        checkbox.classList.add("item-checkbox");
+        checkbox.addEventListener("click", () => {
+            if (itemTitle.classList.contains("checked")) {
+                itemTitle.classList.remove("checked");
+                checkbox.textContent = "";
+            } else {
+                itemTitle.classList.add("checked");
+                checkbox.textContent = "✔️";
+            }
         });
-
-        let itemTextDiv = document.createElement("div");
-        itemTextDiv.classList.add("item-text-div");
-
-            let itemTitle = document.createElement("h3");
-            itemTitle.classList.add("list-item-title");
-            itemTitle.textContent = title;
-
-            let itemDescription = document.createElement("p");
-            itemDescription.classList.add("list-item-description");
-            itemDescription.textContent = description;
-
-        itemTextDiv.appendChild(itemTitle);
-        itemTextDiv.appendChild(itemDescription);
 
         let itemDueDate = document.createElement("p");
         itemDueDate.classList.add("list-item-duedate");
         itemDueDate.textContent = dueDate;
 
-        let itemPriority = document.createElement("p");
-        itemPriority.classList.add("list-item-priority");
-        itemPriority.textContent = `Priority: ${priority}`;
+        let removeButton = document.createElement("button");
+        removeButton.classList.add("remove-item-button");
+        removeButton.innerHTML = "<img src='images/trash.png' alt='Edit list item'>";
+        removeButton.addEventListener("click", () => {
+            myList.removeFromList(id);
+        });
 
-    itemDiv.appendChild(removeButton);
-    itemDiv.appendChild(itemTextDiv);
+        let editButton = document.createElement("button");
+        editButton.classList.add("edit-item-button");
+        editButton.innerHTML = "<img src='images/edit.png' alt='Delete list item'>"
+        editButton.addEventListener("click", () => {
+            myList.removeFromList(id);
+            itemForm.setFormValues(title, description, dueDate, priority);
+            itemForm.launchForm();
+        });
+
+    itemDiv.appendChild(checkbox);
+    itemDiv.appendChild(itemTitle);
     itemDiv.appendChild(itemDueDate);
-    itemDiv.appendChild(itemPriority);
+    itemDiv.appendChild(removeButton);
+    itemDiv.appendChild(editButton);
+    itemDiv.appendChild(itemDescription);
 
     return itemDiv;
 }; 
@@ -112,7 +123,7 @@ const listContainer = () => {
         listDiv.setAttribute("id", "list-container");
         let addButton = document.createElement("button");
         addButton.setAttribute("id", "add-button");
-        addButton.textContent = "+";
+        addButton.textContent = "+ Add Task";
         addButton.addEventListener("click", () => {
             itemForm.launchForm();
         });

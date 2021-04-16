@@ -46,9 +46,8 @@ const listItemFactory = (title, description, dueDate, priority) => {
     let itemTitle = title;
     let itemDescription = description;
     let itemDueDate = dueDate;
-    let itemPriority = priority;
 
-    return {itemId, itemTitle, itemDescription, itemDueDate, itemPriority}
+    return {itemId, itemTitle, itemDescription, itemDueDate}
 };
 
 const myProjects = (() => {
@@ -154,8 +153,8 @@ const myProjects = (() => {
 
 const myList = (() => {
 
-    const addToList = (title, description, dueDate, priority) => {
-        let newItem = listItemFactory(title, description, dueDate, priority);
+    const addToList = (title, description, dueDate) => {
+        let newItem = listItemFactory(title, description, dueDate);
         
         // push newItem to currentProject's list property
         getList().push(newItem);

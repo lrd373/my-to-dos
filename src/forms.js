@@ -18,6 +18,7 @@ const itemForm = (() => {
 
     const generateForm = () => {
         let form = document.createElement("form");
+        form.setAttribute("id", "new-list-item-form");
         let exitButton = document.createElement("button");
         exitButton.setAttribute("id", "form-exit-button");
         exitButton.textContent = "x";
@@ -86,6 +87,7 @@ const itemForm = (() => {
                 priorityList.value
             );
             itemForm.closeForm();
+            setFormValues("","","");
         });
 
         form.appendChild(submitButton);
@@ -95,7 +97,22 @@ const itemForm = (() => {
         content.appendChild(formContainer);
     }
 
-    return {generateForm, launchForm, closeForm};
+    const setFormValues = (title, description, dueDate) => {
+        let titleInput = document.querySelector("#title-input");
+        let descriptionInput = document.querySelector("#description-input");
+        let dueDateInput = document.querySelector("#due-date");
+        let priorityInput = document.querySelector("#priority");
+
+        if (titleInput && descriptionInput && dueDateInput && priorityInput) {
+            titleInput.value = title;
+            descriptionInput.value = description;
+            dueDateInput.value = dueDate;
+            priority.value = priority;
+        }
+
+    }
+
+    return {generateForm, launchForm, closeForm, setFormValues};
 })();
 
 const projectForm = (() => {
