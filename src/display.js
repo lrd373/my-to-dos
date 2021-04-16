@@ -1,4 +1,7 @@
 import {myList, myProjects} from "./list_logic";
+import {itemForm, projectForm} from "./forms";
+
+const content = document.querySelector("#content");
 
 const listItemHTML = (listItemObj) => {
     let id = listItemObj.itemId;
@@ -50,19 +53,25 @@ const listItemHTML = (listItemObj) => {
 }; 
 
 const projectButtonContainer = () => {
-    const header = document.querySelector("header");
-
+    
     // Look for Div Container for Project Buttons
     // If it exists, remove all existing project buttons
     // If it doesn't exist, create it
     let projectButtonDiv = document.querySelector("#project-button-container");
     if (projectButtonDiv) {
-        while(projectButtonDiv.firstChild) {
-            projectButtonDiv.removeChild(projectButtonDiv.firstChild);
+        while(projectButtonDiv.childNodes.length > 1) {
+            projectButtonDiv.removeChild(projectButtonDiv.lastChild);
         }
     } else {
         projectButtonDiv = document.createElement("div");
         projectButtonDiv.setAttribute("id", "project-button-container");
+        let addProjectButton = document.createElement("button");
+        addProjectButton.setAttribute("id", "add-project-button");
+        addProjectButton.textContent = "+";
+        addProjectButton.addEventListener("click", () => {
+            projectForm.launchForm();
+        });
+        projectButtonDiv.appendChild(addProjectButton);
     }
 
     const createProjectButton = (project) => {
@@ -87,30 +96,39 @@ const projectButtonContainer = () => {
         } 
     });
 
-    header.appendChild(projectButtonDiv);
+    content.appendChild(projectButtonDiv);
 }
 
 const listContainer = () => {
-    const content = document.querySelector("#content");
 
     let listDiv = document.querySelector("#list-container");
 
     if (listDiv) {
-        while (listDiv.firstChild) {
-            console.log("tried to empty list");
-            listDiv.removeChild(listDiv.firstChild);
+        while (listDiv.childNodes.length > 1) {
+            listDiv.firstChild.remove();
         }
     } else {
         listDiv = document.createElement("div");
+        listDiv.setAttribute("id", "list-container");
+        let addButton = document.createElement("button");
+        addButton.setAttribute("id", "add-button");
+        addButton.textContent = "+";
+        addButton.addEventListener("click", () => {
+            itemForm.launchForm();
+        });
+        listDiv.appendChild(addButton);
     }
-    
-    listDiv.setAttribute("id", "list-container");
 
+
+    let addItemButton = document.querySelector("#add-button");
     let list = myList.getList();
 
-    list.forEach(item => {
-        listDiv.appendChild(listItemHTML(item));
-    });
+    if (addItemButton) {
+        list.forEach(item => {
+            addItemButton.before(listItemHTML(item));
+        });
+    }
+    
 
     content.appendChild(listDiv);
 };

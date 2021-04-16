@@ -16,14 +16,6 @@ const showHeader = () => {
     let projectTitle = document.createElement("h1");
     headerDiv.appendChild(projectTitle);
 
-    let addButton = document.createElement("button");
-    addButton.setAttribute("id", "add-button");
-    addButton.textContent = "+";
-    addButton.addEventListener("click", () => {
-        itemForm.launchForm();
-    });
-    headerDiv.appendChild(addButton);
-
     let deleteProject = document.createElement("button");
     deleteProject.textContent = "Delete this project";
     deleteProject.setAttribute("id", "delete-project-button");
@@ -44,15 +36,6 @@ const showHeader = () => {
 
 
     projectForm.generateForm();
-    
-    let addProjectButton = document.createElement("button");
-    addProjectButton.setAttribute("id", "add-project-button");
-    addProjectButton.textContent = "+";
-    addProjectButton.addEventListener("click", () => {
-       projectForm.launchForm();
-    });
-
-    header.appendChild(addProjectButton);
 
     content.appendChild(header);
    

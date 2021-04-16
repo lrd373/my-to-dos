@@ -15,4 +15,3 @@ console.log(myProjects.getProjects());
 console.log("Current project at first load:");
 console.log(myProjects.getCurrentProject());
 projectButtonContainer();
-listContainer();

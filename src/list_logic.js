@@ -168,7 +168,6 @@ const myList = (() => {
 
     const removeFromList = (id) => {
         let itemIndex = getList().findIndex(itemObj => itemObj.itemId == id);
-        console.log()
 
         if (itemIndex !== -1) {
             getList().splice(itemIndex,1)
