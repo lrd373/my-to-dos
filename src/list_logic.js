@@ -70,7 +70,9 @@ const myProjects = (() => {
         console.log("trying to set local storage");
         if (storageAvailable("localStorage")) {
             localStorage.setItem("projects", JSON.stringify(_projects));
+            console.log("local storage updated successfully");
         }
+        
     }
 
     const addProject = (name, givenId) => {
@@ -122,8 +124,19 @@ const myProjects = (() => {
         } else {
             deleteProjectButton.style.display = "inline";
         }
+        
         projectButtonContainer();
         listContainer();
+    }
+
+    const projectInList = (id) => {
+        let allProjects = getProjects();
+        let foundProjectIndex = allProjects.findIndex(project => project.id = id);
+        if (foundProjectIndex === -1) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     return {
@@ -133,13 +146,13 @@ const myProjects = (() => {
             addProject, 
             deleteProject, 
             getCurrentProject, 
-            setCurrentProject
+            setCurrentProject,
+            projectInList
         }
 
 })();
 
 const myList = (() => {
-
 
     const addToList = (title, description, dueDate, priority) => {
         let newItem = listItemFactory(title, description, dueDate, priority);

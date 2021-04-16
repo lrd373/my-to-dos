@@ -107,8 +107,6 @@ const listContainer = () => {
     listDiv.setAttribute("id", "list-container");
 
     let list = myList.getList();
-    console.log("What display thinks is current list:");
-    console.log(list);
 
     list.forEach(item => {
         listDiv.appendChild(listItemHTML(item));

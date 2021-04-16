@@ -14,7 +14,6 @@ const showHeader = () => {
     headerDiv.setAttribute("id","header-container");
 
     let projectTitle = document.createElement("h1");
-    projectTitle.textContent = "My To-Dos";
     headerDiv.appendChild(projectTitle);
 
     let addButton = document.createElement("button");
