@@ -1,5 +1,6 @@
 
 import {itemForm, projectForm} from "./forms";
+import {myProjects} from "./list_logic";
 
 const content = document.querySelector("#content");
 
@@ -23,6 +24,22 @@ const showHeader = () => {
         itemForm.launchForm();
     });
     headerDiv.appendChild(addButton);
+
+    let deleteProject = document.createElement("button");
+    deleteProject.textContent = "Delete this project";
+    deleteProject.setAttribute("id", "delete-project-button");
+    // disable deleting function if id = mytodos
+    deleteProject.addEventListener("click", () => {
+        let thisProject = myProjects.getCurrentProject();
+        let thisProjectId = thisProject.id;
+        if (thisProjectId !== "mytodos") {
+            myProjects.deleteProject(thisProjectId);
+            let remainingProjects = myProjects.getProjects();
+            let firstProjectId = remainingProjects[0].id;
+            myProjects.setCurrentProject(firstProjectId);
+        }
+    });
+    headerDiv.appendChild(deleteProject);
 
     header.appendChild(headerDiv);
 

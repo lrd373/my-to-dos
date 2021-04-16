@@ -1,5 +1,7 @@
 import {myList, myProjects} from "./list_logic";
 
+// make submit button clear values of inputs
+
 const itemForm = (() => {
     const content = document.querySelector("#content");
 

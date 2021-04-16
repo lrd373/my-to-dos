@@ -1,7 +1,6 @@
 import {listContainer, projectButtonContainer, setHeaderText} from "./display";
 
 // Create "My To-Dos" default list from the start (maybe from index?)
-// Save projects array to local storage
 
 const generateId = (str1, str2) => {
     let id = "";
@@ -43,7 +42,6 @@ const storageAvailable = (type) => {
 
 const listItemFactory = (title, description, dueDate, priority) => {
     
-    
     let itemId = generateId(title, description);
     let itemTitle = title;
     let itemDescription = description;
@@ -53,8 +51,6 @@ const listItemFactory = (title, description, dueDate, priority) => {
     return {itemId, itemTitle, itemDescription, itemDueDate, itemPriority}
 };
 
-
-
 const myProjects = (() => {
     let _projects = [];
     let _currentProject = {
@@ -63,26 +59,35 @@ const myProjects = (() => {
         list: []
     };
 
-    // if (storageAvailable("localStorage") && localStorage.getItem("projects")) {
-    //     console.log("Local storage available");
-    //     _projects = JSON.parse(localStorage.getItem("projects"));
-    // } else {
-    //     console.log("No local storage available");
-    // }
+    if (storageAvailable("localStorage") && localStorage.getItem("projects")) {
+        console.log("Local storage available");
+        _projects = JSON.parse(localStorage.getItem("projects"));
+    } else {
+        console.log("No local storage available");
+    }
 
-    const addProject = (name) => {
-        // List obj is an obj with three properties:
-        // id
-        // name of the project
-        // an array --> the array of objs that represents that specific
-        // to do list
-        let id = generateId(name);
+    const setLocalStorage = () => {
+        console.log("trying to set local storage");
+        if (storageAvailable("localStorage")) {
+            localStorage.setItem("projects", JSON.stringify(_projects));
+        }
+    }
+
+    const addProject = (name, givenId) => {
+        let id;
+        if (givenId) {
+            id = givenId;
+        } else {
+            id = generateId(name);
+        }
+            
         let listObj = {
             id: id,
             name: name,
             list: []
         }
         _projects.push(listObj);
+        setLocalStorage();
         projectButtonContainer();
     }
 
@@ -90,6 +95,8 @@ const myProjects = (() => {
     const deleteProject = (id) => {
         let projectIndex = _projects.findIndex(project => project.id == id);
         _projects.splice(projectIndex,1);
+        setLocalStorage();
+        projectButtonContainer();
     }
 
     const getProject = (id) => {
@@ -102,21 +109,25 @@ const myProjects = (() => {
     }
 
     const getCurrentProject = () => {
-        // returns Project obj =
-        // {id, name, list array}
         return _currentProject;        
     }
 
     const setCurrentProject = (id) => {
         _currentProject = getProject(id);
-        console.log("Current project is now:");
-        console.log(_currentProject);
         setHeaderText(_currentProject.name);
+
+        let deleteProjectButton = document.querySelector("#delete-project-button");
+        if (id === "mytodos") {
+            deleteProjectButton.style.display = "none";
+        } else {
+            deleteProjectButton.style.display = "inline";
+        }
         projectButtonContainer();
         listContainer();
     }
 
     return {
+            setLocalStorage,
             getProject, 
             getProjects, 
             addProject, 
@@ -128,23 +139,7 @@ const myProjects = (() => {
 })();
 
 const myList = (() => {
-    
-    
-    // if (storageAvailable("localStorage") && localStorage.getItem("_list")) {
-    //     console.log("Local storage available");
-    //     _list = JSON.parse(localStorage.getItem("_list"));
-    //     console.log("After get");
-    //     console.log(_list);
-    // } else {
-    //     console.log("No local storage available");
-    // }
 
-    // const setLocalStorage = () => {
-    //     console.log("trying to set local storage");
-    //     if (storageAvailable("localStorage")) {
-    //         localStorage.setItem("_list", JSON.stringify(_list));
-    //     }
-    // }
 
     const addToList = (title, description, dueDate, priority) => {
         let newItem = listItemFactory(title, description, dueDate, priority);
@@ -153,18 +148,19 @@ const myList = (() => {
         getList().push(newItem);
         console.log("Updated project");
         console.log(myProjects.getCurrentProject());
-        // setLocalStorage();
+
+        myProjects.setLocalStorage();
         listContainer();
     }
 
     const removeFromList = (id) => {
-        let itemIndex = _list.findIndex(itemObj => itemObj.itemId == id);
+        let itemIndex = getList().findIndex(itemObj => itemObj.itemId == id);
+        console.log()
 
         if (itemIndex !== -1) {
             getList().splice(itemIndex,1)
         };
-        console.log(_list);
-        // setLocalStorage();
+        myProjects.setLocalStorage();
         listContainer();
     }
 
