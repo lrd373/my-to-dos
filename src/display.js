@@ -17,32 +17,41 @@ const listItemHTML = (listItemObj) => {
     itemDiv.classList.add("list-item-container");
     itemDiv.setAttribute("id", id);
 
+
+    // ***** TASK TITLE ******
     let titleDiv = document.createElement("div");
     titleDiv.classList.add("item-title-container");
-
 
         let itemTitle = document.createElement("h3");
         itemTitle.classList.add("list-item-title");
         itemTitle.textContent = title;
         titleDiv.appendChild(itemTitle);
 
+        let toggleDescription = document.createElement("button");
+        toggleDescription.classList.add("toggle-description");
+        toggleDescription.textContent = "🔺";
+        toggleDescription.addEventListener("click", () => {
+            if (toggleDescription.classList.contains("spin-and-reveal")) {
+                toggleDescription.classList.remove("spin-and-reveal");
+                itemDescription.style.display = "none";
+            } else {
+                toggleDescription.classList.add("spin-and-reveal");
+                itemDescription.style.display = "inline-block";
+            }
+            
+        });
         if (description) {
-            let toggleDescription = document.createElement("button");
-            toggleDescription.classList.add("toggle-description");
-            toggleDescription.textContent = "🔺";
-            toggleDescription.addEventListener("click", () => {
-                if (toggleDescription.classList.contains("spin-and-reveal")) {
-                    toggleDescription.classList.remove("spin-and-reveal");
-                    descriptionDiv.style.display = "none";
-                } else {
-                    toggleDescription.classList.add("spin-and-reveal");
-                    descriptionDiv.style.display = "inline-block";
-                }
-                
-            });
-            titleDiv.appendChild(toggleDescription);
+            toggleDescription.style.display = "inline";
+        } else {
+            toggleDescription.style.display = "none";
         }
+        titleDiv.appendChild(toggleDescription);
 
+        let newTitleInput = document.createElement("input");
+        newTitleInput.setAttribute("type", "text");
+        newTitleInput.setAttribute("value", `${itemTitle.textContent}`);
+        newTitleInput.style.display = "none";
+        titleDiv.appendChild(newTitleInput);
         
 
     let checkbox = document.createElement("span");
@@ -57,28 +66,49 @@ const listItemHTML = (listItemObj) => {
         }
     });
 
+    // ****** Due Date ******
     let dueDateDiv = document.createElement("div");
     dueDateDiv.classList.add("duedate-container");
-    let dueText = document.createElement("p");
-    dueText.textContent = "Due: ";
-    let itemDueDate = document.createElement("p");
-    itemDueDate.classList.add("list-item-duedate");
+        let dueText = document.createElement("p");
+        dueText.textContent = "Due: ";
+        let itemDueDate = document.createElement("p");
+        itemDueDate.classList.add("list-item-duedate");
 
-    if (listItemObj.itemDueDate) {
-        itemDueDate.textContent = dueDate.toLocaleDateString();
-        dueDateDiv.appendChild(dueText);
-    } 
-    dueDateDiv.appendChild(itemDueDate);
+        if (listItemObj.itemDueDate) {
+            itemDueDate.textContent = dueDate.toLocaleDateString();
+            dueDateDiv.appendChild(dueText);
+        } 
+        dueDateDiv.appendChild(itemDueDate);
 
+        let newDateInput = document.createElement("input");
+        newDateInput.setAttribute("type", "date");
+        newDateInput.style.display = "none";
+        dueDateDiv.appendChild(newDateInput);
+
+    // ****** Description ********
     let descriptionDiv = document.createElement("div");
     descriptionDiv.classList.add("description-container");
-    let itemDescription = document.createElement("p");
-    itemDescription.classList.add("list-item-description");
-    itemDescription.textContent = description;
-    descriptionDiv.appendChild(itemDescription);
+
+        let itemDescription = document.createElement("p");
+        itemDescription.classList.add("list-item-description");
+        itemDescription.textContent = description;
+        descriptionDiv.appendChild(itemDescription);
+
+        let newDescriptionInput = document.createElement("textarea");
+        newDescriptionInput.setAttribute("value", `${itemDescription.textContent}`);
+        newDescriptionInput.style.display = "none";
+        descriptionDiv.appendChild(newDescriptionInput);
     
+    // ******** Buttons **********
     let buttonDiv = document.createElement("div");
     buttonDiv.classList.add("item-button-container");
+        let submitEdits = document.createElement("button");
+        submitEdits.classList.add("submit-edits-button");
+        submitEdits.innerHTML = "<img src='images/checked.png' alt='Submit changes'>";
+        submitEdits.style.display = "none";
+        submitEdits.addEventListener("click", () => {
+            toggleTaskForm();
+        });
 
         let removeButton = document.createElement("button");
         removeButton.classList.add("remove-item-button");
@@ -91,19 +121,68 @@ const listItemHTML = (listItemObj) => {
         editButton.classList.add("edit-item-button");
         editButton.innerHTML = "<img src='images/edit.png' alt='Delete list item'>"
         editButton.addEventListener("click", () => {
-            editButton.style.display = "none";
-            removeButton.style.display = "none";
-            toggleTaskForm(itemDiv);
+            toggleTaskForm();
         });
-
+    buttonDiv.appendChild(submitEdits);
     buttonDiv.appendChild(editButton);
     buttonDiv.appendChild(removeButton);
+
 
     itemDiv.appendChild(checkbox);
     itemDiv.appendChild(titleDiv);
     itemDiv.appendChild(dueDateDiv);
     itemDiv.appendChild(buttonDiv);
     itemDiv.appendChild(descriptionDiv);
+
+    const toggleTaskForm = () => {
+
+        if (submitEdits.style.display !== "none") {
+            itemTitle.textContent = newTitleInput.value;
+            itemTitle.style.display = "inline";
+            toggleDescription.style.display = "inline";
+            newTitleInput.style.display = "none";
+            
+            if (newDateInput.value) {
+                let dateInput = new Date(newDateInput.value);
+                itemDueDate.textContent = dateInput.toLocaleDateString();
+            } else {
+                itemDueDate.textContent = "";
+            }
+            dueText.style.display = "inline";
+            itemDueDate.style.display = "inline";
+            newDateInput.style.display = "none";
+    
+            editButton.style.display = "inline";
+            removeButton.style.display = "inline";
+            submitEdits.style.display = "none";
+
+            itemDescription.textContent = newDescriptionInput.value;
+            itemDescription.style.display = "none";
+            if (newDescriptionInput.value) {
+                toggleDescription.style.display = "inline";
+            } else {
+                toggleDescription.style.display = "none";
+            }
+            newDescriptionInput.style.display = "none";
+            
+
+        } else { 
+            itemTitle.style.display = "none";
+            toggleDescription.style.display = "none";
+            newTitleInput.style.display = "inline";
+    
+            dueText.style.display = "none";
+            itemDueDate.style.display = "none";
+            newDateInput.style.display = "inline";
+    
+            editButton.style.display = "none";
+            removeButton.style.display = "none";
+            submitEdits.style.display = "inline";
+
+            itemDescription.style.display = "none";
+            newDescriptionInput.style.display = "inline";
+        }
+    }
 
     return itemDiv;
 }; 
@@ -192,64 +271,6 @@ const listContainer = () => {
 const setHeaderText = (str) => {
     const headerText = document.querySelector("h1");
     headerText.textContent = str;
-}
-
-const toggleTaskForm = (itemDiv) => {
-    let itemId = itemDiv.getAttribute("id");
-    let titleDiv = document.querySelector(`#${itemId} .item-title-container`);
-    let itemTitle = titleDiv.firstChild;
-    let dueDateDiv = document.querySelector(`#${itemId} .duedate-container`);
-    let descriptionDiv = document.querySelector(`${itemId} .description-container`);
-    let itemDescription = document.querySelector(`#${itemId} .list-item-description`);
-    let buttonDiv = document.querySelector(`${itemId} .item-button-container`);
-    let editButton = document.querySelector(`${itemId} .edit-item-button`);
-    let removeButton = document.querySelector(`${itemId} .remove-item-button`)
-
-
-    let newTitleInput = document.createElement("input");
-    newTitleInput.setAttribute("type", "text");
-    newTitleInput.setAttribute("value", `${itemTitle.textContent}`);
-    while (titleDiv.firstChild) {
-        titleDiv.removeChild(titleDiv.firstChild);
-    }
-    titleDiv.appendChild(newTitleInput);
-
-
-    let newDateInput = document.createElement("input");
-    newDateInput.setAttribute("type", "date");
-    while (dueDateDiv.firstChild) {
-        dueDateDiv.removeChild(dueDateDiv.firstChild);
-    }
-    dueDateDiv.appendChild(newDateInput);
-
-    let submitEdits = document.createElement("button");
-    submitEdits.classList.add("submit-edits");
-    submitEdits.innerHTML = "<img src='images/checked.png' alt='Submit changes'>";
-    submitEdits.addEventListener("click", () => {
-        editButton.style.display = "inline";
-        removeButton.style.display = "inline";
-        submitEdits.style.display = "none";
-    });
-    buttonDiv.appendChild(submitEdits);
-
-    if (descriptionDiv) {
-        console.log("found description");
-    } else {
-        console.log("no desc exists, i swear");
-    }
-    let newDescriptionInput = document.createElement("textarea");
-    newDescriptionInput.setAttribute("value", `${itemDescription.textContent}`);
-    while (descriptionDiv.firstChild) {
-        descriptionDiv.removeChild(descriptionDiv.firstChild);
-    }
-    
-    descriptionDiv.appendChild(newDescriptionInput);
-
-    
-}
-
-const createItem = (itemDiv, titleValue, dueDateValue, descriptionValue) => {
-
 }
 
 export {listContainer, projectButtonContainer, setHeaderText};
