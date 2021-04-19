@@ -19,14 +19,18 @@ const itemForm = (() => {
     const generateForm = () => {
         let form = document.createElement("form");
         form.setAttribute("id", "new-list-item-form");
+
+        let contentDiv = document.createElement("div");
+        contentDiv.classList.add("form-content-container");
+
         let exitButton = document.createElement("button");
-        exitButton.setAttribute("id", "form-exit-button");
-        exitButton.textContent = "x";
+        exitButton.classList.add("form-exit-button");
+        exitButton.textContent = "❌";
         exitButton.addEventListener("click", () => {
             setFormValues("", "", "");
             closeForm();
         });
-        form.appendChild(exitButton);
+        contentDiv.appendChild(exitButton);
 
 
         let titleLabel = document.createElement("label");
@@ -35,16 +39,16 @@ const itemForm = (() => {
         let titleInput = document.createElement("input");
         titleInput.setAttribute("type", "text");
         titleInput.setAttribute("id", "title-input");
-        form.appendChild(titleLabel);
-        form.appendChild(titleInput);
+        contentDiv.appendChild(titleLabel);
+        contentDiv.appendChild(titleInput);
 
         let descriptionLabel = document.createElement("label");
         descriptionLabel.setAttribute("for", "description-input");
         descriptionLabel.textContent = "Description";
         let description = document.createElement("textarea");
         description.setAttribute("id", "description-input");
-        form.appendChild(descriptionLabel);
-        form.appendChild(description);
+        contentDiv.appendChild(descriptionLabel);
+        contentDiv.appendChild(description);
 
         let dueDateLabel = document.createElement("label");
         dueDateLabel.setAttribute("for", "due-date");
@@ -52,12 +56,14 @@ const itemForm = (() => {
         let dueDate = document.createElement("input");
         dueDate.setAttribute("id", "due-date");
         dueDate.setAttribute("type", "date");
-        form.appendChild(dueDateLabel);
-        form.appendChild(dueDate);
+        contentDiv.appendChild(dueDateLabel);
+        contentDiv.appendChild(dueDate);
 
         let submitButton = document.createElement("button");
         submitButton.setAttribute("type", "button");
-        submitButton.textContent = "Add to list";
+        submitButton.classList.add("form-submit-button");
+        submitButton.classList.add("submit-button");
+        submitButton.textContent = "+ Add to list";
         submitButton.addEventListener("click", () => {
             myList.addToList(
                 titleInput.value,
@@ -68,7 +74,8 @@ const itemForm = (() => {
             setFormValues("","","");
         });
 
-        form.appendChild(submitButton);
+        contentDiv.appendChild(submitButton);
+        form.appendChild(contentDiv);
 
         formContainer.appendChild(form);
 
@@ -103,13 +110,15 @@ const projectForm = (() => {
 
     const closeForm = () => {
         formContainer.style.display = "none";
+        let nameInput = document.querySelector("#name-input");
+        nameInput.value = "";
     }
 
     const generateForm = () => {
         let form = document.createElement("form");
         let exitButton = document.createElement("button");
-        exitButton.setAttribute("id", "form-exit-button");
-        exitButton.textContent = "x";
+        exitButton.classList.add("form-exit-button");
+        exitButton.textContent = "❌";
         exitButton.addEventListener("click", closeForm);
         form.appendChild(exitButton);
 
@@ -124,10 +133,11 @@ const projectForm = (() => {
 
         let submitButton = document.createElement("button");
         submitButton.setAttribute("type", "button");
+        submitButton.classList.add("form-submit-button");
+        submitButton.classList.add("submit-button");
         submitButton.textContent = "Create project";
         submitButton.addEventListener("click", () => {
             myProjects.addProject(nameInput.value);
-            console.log(myProjects.getProjects());
             projectForm.closeForm();
         });
 

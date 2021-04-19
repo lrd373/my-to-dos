@@ -19,6 +19,7 @@ const showHeader = () => {
     let deleteProject = document.createElement("button");
     deleteProject.textContent = "Delete this project";
     deleteProject.setAttribute("id", "delete-project-button");
+    deleteProject.classList.add("submit-button");
     // disable deleting function if id = mytodos
     deleteProject.addEventListener("click", () => {
         let thisProject = myProjects.getCurrentProject();

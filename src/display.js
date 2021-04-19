@@ -60,9 +60,11 @@ const listItemHTML = (listItemObj) => {
         if (itemTitle.classList.contains("checked")) {
             itemTitle.classList.remove("checked");
             checkbox.textContent = "";
+            checkbox.style.backgroundColor = "#668658";
         } else {
             itemTitle.classList.add("checked");
             checkbox.textContent = "✔️";
+            checkbox.style.backgroundColor = "rgb(37, 51, 38)"
         }
     });
 
@@ -96,6 +98,8 @@ const listItemHTML = (listItemObj) => {
 
         let newDescriptionInput = document.createElement("textarea");
         newDescriptionInput.setAttribute("value", `${itemDescription.textContent}`);
+        newDescriptionInput.setAttribute("rows", "5");
+        newDescriptionInput.setAttribute("cols", "50");
         newDescriptionInput.style.display = "none";
         descriptionDiv.appendChild(newDescriptionInput);
     
@@ -104,7 +108,8 @@ const listItemHTML = (listItemObj) => {
     buttonDiv.classList.add("item-button-container");
         let submitEdits = document.createElement("button");
         submitEdits.classList.add("submit-edits-button");
-        submitEdits.innerHTML = "<img src='images/checked.png' alt='Submit changes'>";
+        submitEdits.classList.add("submit-button");
+        submitEdits.textContent = "Submit";
         submitEdits.style.display = "none";
         submitEdits.addEventListener("click", () => {
             toggleTaskForm();
@@ -112,6 +117,7 @@ const listItemHTML = (listItemObj) => {
 
         let removeButton = document.createElement("button");
         removeButton.classList.add("remove-item-button");
+        removeButton.classList.add("img-button");
         removeButton.innerHTML = "<img src='images/trash.png' alt='Edit list item'>";
         removeButton.addEventListener("click", () => {
             myList.removeFromList(id);
@@ -119,6 +125,7 @@ const listItemHTML = (listItemObj) => {
 
         let editButton = document.createElement("button");
         editButton.classList.add("edit-item-button");
+        editButton.classList.add("img-button");
         editButton.innerHTML = "<img src='images/edit.png' alt='Delete list item'>"
         editButton.addEventListener("click", () => {
             toggleTaskForm();
@@ -187,6 +194,43 @@ const listItemHTML = (listItemObj) => {
     return itemDiv;
 }; 
 
+
+
+const listContainer = () => {
+
+    let listDiv = document.querySelector("#list-container");
+
+    if (listDiv) {
+        while (listDiv.childNodes.length > 1) {
+            listDiv.firstChild.remove();
+        }
+    } else {
+        listDiv = document.createElement("div");
+        listDiv.setAttribute("id", "list-container");
+        let addButton = document.createElement("button");
+        addButton.setAttribute("id", "add-button");
+        addButton.classList.add("submit-button");
+        addButton.textContent = "+ Add Item";
+        addButton.addEventListener("click", () => {
+            itemForm.launchForm();
+        });
+        listDiv.appendChild(addButton);
+    }
+
+
+    let addItemButton = document.querySelector("#add-button");
+    let list = myList.getList();
+
+    if (addItemButton) {
+        list.forEach(item => {
+            addItemButton.before(listItemHTML(item));
+        });
+    }
+    
+
+    content.appendChild(listDiv);
+};
+
 const projectButtonContainer = () => {
     
     // Look for Div Container for Project Buttons
@@ -202,7 +246,8 @@ const projectButtonContainer = () => {
         projectButtonDiv.setAttribute("id", "project-button-container");
         let addProjectButton = document.createElement("button");
         addProjectButton.setAttribute("id", "add-project-button");
-        addProjectButton.textContent = "+";
+        addProjectButton.classList.add("submit-button");
+        addProjectButton.textContent = "+ Add Project";
         addProjectButton.addEventListener("click", () => {
             projectForm.launchForm();
         });
@@ -225,6 +270,18 @@ const projectButtonContainer = () => {
 
     let projects = myProjects.getProjects();
 
+    if (projects.length > 1) {
+        let myProjects = document.createElement("h2");
+        myProjects.setAttribute("id", "my-projects");
+        myProjects.textContent = "My Projects";
+        projectButtonDiv.appendChild(myProjects);
+
+        let divider = document.createElement("hr");
+        divider.setAttribute("id", "projects-divider");
+        projectButtonDiv.appendChild(divider);
+    }
+    
+
     projects.forEach(project => {
         if (project != myProjects.getCurrentProject()) {
             createProjectButton(project);
@@ -233,40 +290,6 @@ const projectButtonContainer = () => {
 
     content.appendChild(projectButtonDiv);
 }
-
-const listContainer = () => {
-
-    let listDiv = document.querySelector("#list-container");
-
-    if (listDiv) {
-        while (listDiv.childNodes.length > 1) {
-            listDiv.firstChild.remove();
-        }
-    } else {
-        listDiv = document.createElement("div");
-        listDiv.setAttribute("id", "list-container");
-        let addButton = document.createElement("button");
-        addButton.setAttribute("id", "add-button");
-        addButton.textContent = "+ Add Task";
-        addButton.addEventListener("click", () => {
-            itemForm.launchForm();
-        });
-        listDiv.appendChild(addButton);
-    }
-
-
-    let addItemButton = document.querySelector("#add-button");
-    let list = myList.getList();
-
-    if (addItemButton) {
-        list.forEach(item => {
-            addItemButton.before(listItemHTML(item));
-        });
-    }
-    
-
-    content.appendChild(listDiv);
-};
 
 const setHeaderText = (str) => {
     const headerText = document.querySelector("h1");
