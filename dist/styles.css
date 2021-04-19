@@ -45,12 +45,12 @@ h1 {
     display: grid;
     grid-template-columns: repeat(10,1fr);
     align-items: center;
+    margin: 10px 0;
 }
 
-.list-item-container > * {
-    margin: 0 5px;
+.list-item-container p {
+    margin: 0;
 }
-
 
 .item-checkbox {
     color: transparent;
@@ -106,7 +106,7 @@ h1 {
     
 }
 
-.remove-item-button img, .edit-item-button img {
+.remove-item-button img, .edit-item-button img, .submit-edits img {
     width: 15px;
     transition: width 0.5s, height 0.5s;
 }
@@ -115,7 +115,7 @@ h1 {
     width: 20px;
 }
 
-.list-item-description {
+.description-container {
     break-before: always;
     display: none;
     grid-column: 2/11;

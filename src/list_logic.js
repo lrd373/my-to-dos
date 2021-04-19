@@ -6,6 +6,11 @@ const generateId = (str1, str2) => {
     let id = "";
     if (str1) {id += str1.charAt(0)}
     if (str2) {id += str2.charAt(0)}
+    if (!str1 && !str2) {
+        let alphaCharCode = Math.ceil(Math.random() * 26) + 64
+        let alphaChar = String.fromCharCode(alphaCharCode);
+        id += alphaChar;
+    }
 
     let rando1 = Math.ceil(Math.random() * 10000);
     let rando2 = Math.ceil(Math.random() * 10000);

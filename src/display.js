@@ -17,62 +17,68 @@ const listItemHTML = (listItemObj) => {
     itemDiv.classList.add("list-item-container");
     itemDiv.setAttribute("id", id);
 
+    let titleDiv = document.createElement("div");
+    titleDiv.classList.add("item-title-container");
+
+
+        let itemTitle = document.createElement("h3");
+        itemTitle.classList.add("list-item-title");
+        itemTitle.textContent = title;
+        titleDiv.appendChild(itemTitle);
+
+        if (description) {
+            let toggleDescription = document.createElement("button");
+            toggleDescription.classList.add("toggle-description");
+            toggleDescription.textContent = "🔺";
+            toggleDescription.addEventListener("click", () => {
+                if (toggleDescription.classList.contains("spin-and-reveal")) {
+                    toggleDescription.classList.remove("spin-and-reveal");
+                    descriptionDiv.style.display = "none";
+                } else {
+                    toggleDescription.classList.add("spin-and-reveal");
+                    descriptionDiv.style.display = "inline-block";
+                }
+                
+            });
+            titleDiv.appendChild(toggleDescription);
+        }
+
+        
+
+    let checkbox = document.createElement("span");
+    checkbox.classList.add("item-checkbox");
+    checkbox.addEventListener("click", () => {
+        if (itemTitle.classList.contains("checked")) {
+            itemTitle.classList.remove("checked");
+            checkbox.textContent = "";
+        } else {
+            itemTitle.classList.add("checked");
+            checkbox.textContent = "✔️";
+        }
+    });
+
+    let dueDateDiv = document.createElement("div");
+    dueDateDiv.classList.add("duedate-container");
+    let dueText = document.createElement("p");
+    dueText.textContent = "Due: ";
+    let itemDueDate = document.createElement("p");
+    itemDueDate.classList.add("list-item-duedate");
+
+    if (listItemObj.itemDueDate) {
+        itemDueDate.textContent = dueDate.toLocaleDateString();
+        dueDateDiv.appendChild(dueText);
+    } 
+    dueDateDiv.appendChild(itemDueDate);
+
+    let descriptionDiv = document.createElement("div");
+    descriptionDiv.classList.add("description-container");
     let itemDescription = document.createElement("p");
     itemDescription.classList.add("list-item-description");
     itemDescription.textContent = description;
-
-        let titleDiv = document.createElement("div");
-        titleDiv.classList.add("item-title-container");
-
-
-            let itemTitle = document.createElement("h3");
-            itemTitle.classList.add("list-item-title");
-            itemTitle.textContent = title;
-            titleDiv.appendChild(itemTitle);
-
-            if (description) {
-                let toggleDescription = document.createElement("button");
-                toggleDescription.classList.add("toggle-description");
-                toggleDescription.textContent = "🔺";
-                toggleDescription.addEventListener("click", () => {
-                    if (toggleDescription.classList.contains("spin-and-reveal")) {
-                        toggleDescription.classList.remove("spin-and-reveal");
-                        itemDescription.style.display = "none";
-                    } else {
-                        toggleDescription.classList.add("spin-and-reveal");
-                        itemDescription.style.display = "inline-block";
-                    }
-                    
-                });
-                titleDiv.appendChild(toggleDescription);
-            }
-
-        
-
-        let checkbox = document.createElement("span");
-        checkbox.classList.add("item-checkbox");
-        checkbox.addEventListener("click", () => {
-            if (itemTitle.classList.contains("checked")) {
-                itemTitle.classList.remove("checked");
-                checkbox.textContent = "";
-            } else {
-                itemTitle.classList.add("checked");
-                checkbox.textContent = "✔️";
-            }
-        });
-
-        
-
-        let itemDueDate = document.createElement("p");
-        itemDueDate.classList.add("list-item-duedate");
-
-        if (listItemObj.itemDueDate) {
-            itemDueDate.textContent = `Due: ${dueDate.toLocaleDateString()}`;
-        } 
-        
-       
-        let buttonDiv = document.createElement("div");
-        buttonDiv.classList.add("item-button-container");
+    descriptionDiv.appendChild(itemDescription);
+    
+    let buttonDiv = document.createElement("div");
+    buttonDiv.classList.add("item-button-container");
 
         let removeButton = document.createElement("button");
         removeButton.classList.add("remove-item-button");
@@ -85,19 +91,19 @@ const listItemHTML = (listItemObj) => {
         editButton.classList.add("edit-item-button");
         editButton.innerHTML = "<img src='images/edit.png' alt='Delete list item'>"
         editButton.addEventListener("click", () => {
-            itemForm.setFormValues(title, description, dueDate);
-            itemForm.launchForm();
-            myList.removeFromList(id);
+            editButton.style.display = "none";
+            removeButton.style.display = "none";
+            toggleTaskForm(itemDiv);
         });
 
-        buttonDiv.appendChild(editButton);
-        buttonDiv.appendChild(removeButton);
+    buttonDiv.appendChild(editButton);
+    buttonDiv.appendChild(removeButton);
 
     itemDiv.appendChild(checkbox);
     itemDiv.appendChild(titleDiv);
-    itemDiv.appendChild(itemDueDate);
+    itemDiv.appendChild(dueDateDiv);
     itemDiv.appendChild(buttonDiv);
-    itemDiv.appendChild(itemDescription);
+    itemDiv.appendChild(descriptionDiv);
 
     return itemDiv;
 }; 
@@ -186,6 +192,64 @@ const listContainer = () => {
 const setHeaderText = (str) => {
     const headerText = document.querySelector("h1");
     headerText.textContent = str;
+}
+
+const toggleTaskForm = (itemDiv) => {
+    let itemId = itemDiv.getAttribute("id");
+    let titleDiv = document.querySelector(`#${itemId} .item-title-container`);
+    let itemTitle = titleDiv.firstChild;
+    let dueDateDiv = document.querySelector(`#${itemId} .duedate-container`);
+    let descriptionDiv = document.querySelector(`${itemId} .description-container`);
+    let itemDescription = document.querySelector(`#${itemId} .list-item-description`);
+    let buttonDiv = document.querySelector(`${itemId} .item-button-container`);
+    let editButton = document.querySelector(`${itemId} .edit-item-button`);
+    let removeButton = document.querySelector(`${itemId} .remove-item-button`)
+
+
+    let newTitleInput = document.createElement("input");
+    newTitleInput.setAttribute("type", "text");
+    newTitleInput.setAttribute("value", `${itemTitle.textContent}`);
+    while (titleDiv.firstChild) {
+        titleDiv.removeChild(titleDiv.firstChild);
+    }
+    titleDiv.appendChild(newTitleInput);
+
+
+    let newDateInput = document.createElement("input");
+    newDateInput.setAttribute("type", "date");
+    while (dueDateDiv.firstChild) {
+        dueDateDiv.removeChild(dueDateDiv.firstChild);
+    }
+    dueDateDiv.appendChild(newDateInput);
+
+    let submitEdits = document.createElement("button");
+    submitEdits.classList.add("submit-edits");
+    submitEdits.innerHTML = "<img src='images/checked.png' alt='Submit changes'>";
+    submitEdits.addEventListener("click", () => {
+        editButton.style.display = "inline";
+        removeButton.style.display = "inline";
+        submitEdits.style.display = "none";
+    });
+    buttonDiv.appendChild(submitEdits);
+
+    if (descriptionDiv) {
+        console.log("found description");
+    } else {
+        console.log("no desc exists, i swear");
+    }
+    let newDescriptionInput = document.createElement("textarea");
+    newDescriptionInput.setAttribute("value", `${itemDescription.textContent}`);
+    while (descriptionDiv.firstChild) {
+        descriptionDiv.removeChild(descriptionDiv.firstChild);
+    }
+    
+    descriptionDiv.appendChild(newDescriptionInput);
+
+    
+}
+
+const createItem = (itemDiv, titleValue, dueDateValue, descriptionValue) => {
+
 }
 
 export {listContainer, projectButtonContainer, setHeaderText};
