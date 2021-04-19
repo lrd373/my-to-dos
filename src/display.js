@@ -3,23 +3,51 @@ import {itemForm, projectForm} from "./forms";
 
 const content = document.querySelector("#content");
 
+// Fix edit button functionality - replace values with inputs that allow
+// user to update the values
+// DO NOT open form and then delete list item --> if user exits form, their item is gone
+
 const listItemHTML = (listItemObj) => {
     let id = listItemObj.itemId;
     let title = listItemObj.itemTitle;
+    let dueDate = new Date(listItemObj.itemDueDate);
     let description = listItemObj.itemDescription;
-    let dueDate = listItemObj.itemDueDate;
 
     let itemDiv = document.createElement("div");
     itemDiv.classList.add("list-item-container");
     itemDiv.setAttribute("id", id);
 
-        let itemTitle = document.createElement("h3");
-        itemTitle.classList.add("list-item-title");
-        itemTitle.textContent = title;
+    let itemDescription = document.createElement("p");
+    itemDescription.classList.add("list-item-description");
+    itemDescription.textContent = description;
 
-        let itemDescription = document.createElement("p");
-        itemDescription.classList.add("list-item-description");
-        itemDescription.textContent = description;
+        let titleDiv = document.createElement("div");
+        titleDiv.classList.add("item-title-container");
+
+
+            let itemTitle = document.createElement("h3");
+            itemTitle.classList.add("list-item-title");
+            itemTitle.textContent = title;
+            titleDiv.appendChild(itemTitle);
+
+            if (description) {
+                let toggleDescription = document.createElement("button");
+                toggleDescription.classList.add("toggle-description");
+                toggleDescription.textContent = "🔺";
+                toggleDescription.addEventListener("click", () => {
+                    if (toggleDescription.classList.contains("spin-and-reveal")) {
+                        toggleDescription.classList.remove("spin-and-reveal");
+                        itemDescription.style.display = "none";
+                    } else {
+                        toggleDescription.classList.add("spin-and-reveal");
+                        itemDescription.style.display = "inline-block";
+                    }
+                    
+                });
+                titleDiv.appendChild(toggleDescription);
+            }
+
+        
 
         let checkbox = document.createElement("span");
         checkbox.classList.add("item-checkbox");
@@ -33,9 +61,18 @@ const listItemHTML = (listItemObj) => {
             }
         });
 
+        
+
         let itemDueDate = document.createElement("p");
         itemDueDate.classList.add("list-item-duedate");
-        itemDueDate.textContent = dueDate;
+
+        if (listItemObj.itemDueDate) {
+            itemDueDate.textContent = `Due: ${dueDate.toLocaleDateString()}`;
+        } 
+        
+       
+        let buttonDiv = document.createElement("div");
+        buttonDiv.classList.add("item-button-container");
 
         let removeButton = document.createElement("button");
         removeButton.classList.add("remove-item-button");
@@ -48,16 +85,18 @@ const listItemHTML = (listItemObj) => {
         editButton.classList.add("edit-item-button");
         editButton.innerHTML = "<img src='images/edit.png' alt='Delete list item'>"
         editButton.addEventListener("click", () => {
-            myList.removeFromList(id);
-            itemForm.setFormValues(title, description, dueDate, priority);
+            itemForm.setFormValues(title, description, dueDate);
             itemForm.launchForm();
+            myList.removeFromList(id);
         });
 
+        buttonDiv.appendChild(editButton);
+        buttonDiv.appendChild(removeButton);
+
     itemDiv.appendChild(checkbox);
-    itemDiv.appendChild(itemTitle);
+    itemDiv.appendChild(titleDiv);
     itemDiv.appendChild(itemDueDate);
-    itemDiv.appendChild(removeButton);
-    itemDiv.appendChild(editButton);
+    itemDiv.appendChild(buttonDiv);
     itemDiv.appendChild(itemDescription);
 
     return itemDiv;

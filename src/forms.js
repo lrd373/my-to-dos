@@ -22,7 +22,10 @@ const itemForm = (() => {
         let exitButton = document.createElement("button");
         exitButton.setAttribute("id", "form-exit-button");
         exitButton.textContent = "x";
-        exitButton.addEventListener("click", closeForm);
+        exitButton.addEventListener("click", () => {
+            setFormValues("", "", "");
+            closeForm();
+        });
         form.appendChild(exitButton);
 
 
@@ -52,30 +55,6 @@ const itemForm = (() => {
         form.appendChild(dueDateLabel);
         form.appendChild(dueDate);
 
-        let priorityLabel = document.createElement("label");
-        priorityLabel.setAttribute("for", "priority");
-        priorityLabel.setAttribute("id", "priority-label");
-        priorityLabel.textContent = "Priority";
-        let priorityList = document.createElement("select")
-        priorityList.setAttribute("id", "priority");
-        priorityList.setAttribute("name", "priority");
-
-            let high = document.createElement("option");
-            high.setAttribute("value", "high");
-            high.textContent = "High";
-            let medium = document.createElement("option");
-            medium.setAttribute("value", "medium");
-            medium.textContent = "Medium";
-            let low = document.createElement("option");
-            low.setAttribute("value", "low");
-            low.textContent = "Low";
-            priorityList.appendChild(high);
-            priorityList.appendChild(medium);
-            priorityList.appendChild(low);
-
-        form.appendChild(priorityLabel);
-        form.appendChild(priorityList);
-
         let submitButton = document.createElement("button");
         submitButton.setAttribute("type", "button");
         submitButton.textContent = "Add to list";
@@ -84,7 +63,6 @@ const itemForm = (() => {
                 titleInput.value,
                 description.value,
                 dueDate.value,
-                priorityList.value
             );
             itemForm.closeForm();
             setFormValues("","","");
@@ -101,13 +79,11 @@ const itemForm = (() => {
         let titleInput = document.querySelector("#title-input");
         let descriptionInput = document.querySelector("#description-input");
         let dueDateInput = document.querySelector("#due-date");
-        let priorityInput = document.querySelector("#priority");
 
-        if (titleInput && descriptionInput && dueDateInput && priorityInput) {
+        if (titleInput && descriptionInput && dueDateInput) {
             titleInput.value = title;
             descriptionInput.value = description;
             dueDateInput.value = dueDate;
-            priority.value = priority;
         }
 
     }

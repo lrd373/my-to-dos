@@ -1,4 +1,5 @@
 body {
+    font-family: "Roboto", sans-serif;
     margin: 0;
 }
 
@@ -13,7 +14,6 @@ body {
 /****************** HEADER *******************/
 header {
     background-color: #668658;
-    font-family: "Roboto", sans-serif;
     padding: 15px 30px;
     grid-column: 1/11;
     grid-row: 1/2;
@@ -34,6 +34,7 @@ h1 {
 /****************** LIST *******************/
 #list-container {
     background-color: rgba(250, 242, 215, 0.692);
+    color: rgb(37, 51, 38);
     grid-column: 1/8;
     grid-row: 2/11;
     margin: 0;
@@ -41,7 +42,8 @@ h1 {
 }
 
 .list-item-container {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(10,1fr);
     align-items: center;
 }
 
@@ -49,14 +51,14 @@ h1 {
     margin: 0 5px;
 }
 
-.list-item-description {
-   break-before: always;
-}
 
 .item-checkbox {
-    background-color: #668658;
+    color: transparent;
+    text-shadow: 0 0 0 rgba(250, 242, 215, 0.692);
+    background-color: rgb(37, 51, 38);
     border-radius: 5px;
     display: flex;
+    grid-column: 1/2;
     justify-content: center;
     align-items: center;
     font-size: 0.65em;
@@ -66,20 +68,39 @@ h1 {
 }
 
 .item-checkbox:hover {
-    background-color: #6686589a;
+    background-color: #668658;
 }
 
 .checked {
     text-decoration: line-through;
 }
 
+.item-title-container {
+    display: flex;
+    grid-column: 2/8;
+}
+
+.toggle-description {
+    color: transparent;  
+    text-shadow: 0 0 0 rgb(37, 51, 38);
+    background-color: transparent;
+    border: none;
+    transform: rotate(90deg);
+    transition: transform 0.25s;
+}
+
+.spin-and-reveal {
+    transform: rotate(180deg);
+}
+
+.list-item-duedate {
+    grid-column: 8/9;
+}
+
 .remove-item-button, .edit-item-button {
     background-color: transparent;
     border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
+    padding: 0 10px;
     width: 15px;
     height: 15px;
     
@@ -94,6 +115,13 @@ h1 {
     width: 20px;
 }
 
+.list-item-description {
+    break-before: always;
+    display: none;
+    grid-column: 2/11;
+ }
+
+ 
 /****************** FORMS *******************/
 #form-container, #project-form-container {
     display: none;
