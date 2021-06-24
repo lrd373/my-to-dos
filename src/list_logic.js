@@ -170,6 +170,17 @@ const myList = (() => {
         listContainer();
     }
 
+    const editList = (id, title, description, dueDate) => {
+        let itemIndex = getList().findIndex(itemObj => itemObj.itemId == id);
+        let editedItem = listItemFactory(title, description, dueDate);
+
+        if (itemIndex !== -1) {
+            getList()[itemIndex] = editedItem;
+        };
+        myProjects.setLocalStorage();
+        listContainer();
+    }
+
     const removeFromList = (id) => {
         let itemIndex = getList().findIndex(itemObj => itemObj.itemId == id);
 
@@ -186,7 +197,7 @@ const myList = (() => {
         return _list;
     }
 
-    return {addToList, removeFromList, getList}
+    return {addToList, removeFromList, getList, editList}
 
 })();
 

@@ -1,6 +1,8 @@
 import {myList, myProjects} from "./list_logic";
 import {itemForm, projectForm} from "./forms";
 
+const { DateTime } = require('luxon');
+
 const content = document.querySelector("#content");
 
 // Fix edit button functionality - replace values with inputs that allow
@@ -21,6 +23,23 @@ const listItemHTML = (listItemObj) => {
     // ***** TASK TITLE ******
     let titleDiv = document.createElement("div");
     titleDiv.classList.add("item-title-container");
+
+        let checkbox = document.createElement("input");
+        checkbox.setAttribute('type', 'checkbox');
+        checkbox.classList.add("item-checkbox");
+        checkbox.addEventListener("click", () => {
+            if (itemTitle.classList.contains("checked")) {
+                itemTitle.classList.remove("checked");
+                checkbox.textContent = "";
+                checkbox.style.backgroundColor = "#668658";
+            } else {
+                itemTitle.classList.add("checked");
+                checkbox.textContent = "✔️";
+                checkbox.style.backgroundColor = "rgb(37, 51, 38)"
+            }
+        });
+
+        titleDiv.appendChild(checkbox);
 
         let itemTitle = document.createElement("h3");
         itemTitle.classList.add("list-item-title");
@@ -54,21 +73,7 @@ const listItemHTML = (listItemObj) => {
         newTitleInput.setAttribute("value", `${itemTitle.textContent}`);
         newTitleInput.style.display = "none";
         titleDiv.appendChild(newTitleInput);
-        
-
-    let checkbox = document.createElement("span");
-    checkbox.classList.add("item-checkbox");
-    checkbox.addEventListener("click", () => {
-        if (itemTitle.classList.contains("checked")) {
-            itemTitle.classList.remove("checked");
-            checkbox.textContent = "";
-            checkbox.style.backgroundColor = "#668658";
-        } else {
-            itemTitle.classList.add("checked");
-            checkbox.textContent = "✔️";
-            checkbox.style.backgroundColor = "rgb(37, 51, 38)"
-        }
-    });
+  
 
     // ****** Due Date ******
     let dueDateDiv = document.createElement("div");
@@ -103,7 +108,7 @@ const listItemHTML = (listItemObj) => {
         descriptionDiv.appendChild(itemDescription);
 
         let newDescriptionInput = document.createElement("textarea");
-        newDescriptionInput.setAttribute("value", `${itemDescription.textContent}`);
+        newDescriptionInput.classList.add("editDescriptionInput");
         newDescriptionInput.setAttribute("rows", "5");
         newDescriptionInput.setAttribute("cols", "50");
         newDescriptionInput.style.display = "none";
@@ -118,6 +123,12 @@ const listItemHTML = (listItemObj) => {
         submitEdits.textContent = "Submit";
         submitEdits.style.display = "none";
         submitEdits.addEventListener("click", () => {
+            myList.editList(
+                id,
+                newTitleInput.value,
+                newDescriptionInput.value,
+                newDateInput.value.toString()
+            );
             toggleTaskForm();
         });
 
@@ -141,7 +152,6 @@ const listItemHTML = (listItemObj) => {
     buttonDiv.appendChild(removeButton);
 
 
-    itemDiv.appendChild(checkbox);
     itemDiv.appendChild(titleDiv);
     itemDiv.appendChild(dueDateDiv);
     itemDiv.appendChild(buttonDiv);
@@ -151,17 +161,11 @@ const listItemHTML = (listItemObj) => {
 
         // if form is visible --> toggle form updates task values and hides inputs
         if (submitEdits.style.display !== "none") {
-            itemTitle.textContent = newTitleInput.value;
+            checkbox.style.display = "inline-block";
             itemTitle.style.display = "inline";
             toggleDescription.style.display = "inline";
             newTitleInput.style.display = "none";
             
-            if (newDateInput.value) {
-                let dateInput = new Date(newDateInput.value);
-                itemDueDate.textContent = dateInput.toLocaleDateString();
-            } else {
-                itemDueDate.textContent = "";
-            }
             dueText.style.display = "inline";
             itemDueDate.style.display = "inline";
             newDateInput.style.display = "none";
@@ -170,7 +174,6 @@ const listItemHTML = (listItemObj) => {
             removeButton.style.display = "inline";
             submitEdits.style.display = "none";
 
-            itemDescription.textContent = newDescriptionInput.value;
             itemDescription.style.display = "none";
             if (newDescriptionInput.value) {
                 toggleDescription.style.display = "inline";
@@ -178,23 +181,28 @@ const listItemHTML = (listItemObj) => {
                 toggleDescription.style.display = "none";
             }
             newDescriptionInput.style.display = "none";
+            descriptionDiv.style.gridColumn = "2/11";
             
         // if form is NOT visible --> toggle form reveals input fields
         } else { 
             itemTitle.style.display = "none";
+            checkbox.style.display = "none";
             toggleDescription.style.display = "none";
             newTitleInput.style.display = "inline";
     
             dueText.style.display = "none";
             itemDueDate.style.display = "none";
             newDateInput.style.display = "inline";
+            newDateInput.value = DateTime.fromJSDate(dueDate).toFormat("yyyy-MM-dd");
     
             editButton.style.display = "none";
             removeButton.style.display = "none";
             submitEdits.style.display = "inline";
 
             itemDescription.style.display = "none";
+            newDescriptionInput.textContent = itemDescription.textContent;
             newDescriptionInput.style.display = "inline";
+            descriptionDiv.style.gridColumn = "1/10";
         }
     };
 
@@ -215,7 +223,7 @@ const listContainer = () => {
         listDiv = document.createElement("div");
         listDiv.setAttribute("id", "list-container");
         let addButton = document.createElement("button");
-        addButton.setAttribute("id", "add-button");
+        addButton.classList.add("item-add-button");
         addButton.classList.add("submit-button");
         addButton.textContent = "+ Add Item";
         addButton.addEventListener("click", () => {
@@ -225,7 +233,7 @@ const listContainer = () => {
     }
 
 
-    let addItemButton = document.querySelector("#add-button");
+    let addItemButton = document.querySelector(".item-add-button");
     let list = myList.getList();
 
     if (addItemButton) {

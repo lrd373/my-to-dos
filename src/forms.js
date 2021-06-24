@@ -1,3 +1,4 @@
+import { listContainer } from "./display";
 import {myList, myProjects} from "./list_logic";
 
 // make submit button clear values of inputs
@@ -24,11 +25,12 @@ const itemForm = (() => {
         contentDiv.classList.add("form-content-container");
 
         let exitButton = document.createElement("button");
+        exitButton.setAttribute("type", "button");
         exitButton.classList.add("form-exit-button");
         exitButton.textContent = "❌";
         exitButton.addEventListener("click", () => {
-            setFormValues("", "", "");
             closeForm();
+            setFormValues("", "", "");
         });
         contentDiv.appendChild(exitButton);
 

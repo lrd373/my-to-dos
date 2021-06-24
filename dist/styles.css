@@ -133,11 +133,11 @@ h1 {
     display: grid;
     grid-template-columns: repeat(10,1fr);
     align-items: center;
-    margin: 1rem 0;
+    margin: 1rem;
 }
 
 .list-item-title {
-    margin: 0;
+    margin: 0.1rem 0.1rem 0.1rem 0.5rem;
 }
 
 .list-item-icon {
@@ -145,6 +145,11 @@ h1 {
     width: 1rem;
     height: 1rem;
     transform: scaleY(-1);
+}
+
+.list-item-description {
+  display: none;
+  padding-left: 0.2rem;
 }
 
 .list-item-container p {
@@ -157,12 +162,11 @@ h1 {
     background-color: var(--light-green);
     border-radius: 5px;
     display: flex;
-    grid-column: 1/2;
     justify-content: center;
     align-items: center;
     font-size: 0.65em;
-    width: 15px;
-    height: 15px;
+    width: 1rem;
+    height: 1rem;
     transition: background-color 0.5s;
 }
 
@@ -176,7 +180,8 @@ h1 {
 
 .item-title-container {
     display: flex;
-    grid-column: 2/8;
+    grid-column: 1/8;
+    align-items: baseline;
 }
 
 .toggle-description {
@@ -193,11 +198,11 @@ h1 {
 }
 
 .list-item-duedate {
-    grid-column: 8/10;
+    grid-column: 8/9;
 }
 
 .item-button-container{
-    grid-column: 10/11;
+    grid-column: 9/11;
     margin-right: 5px;
     text-align: right;
 }
@@ -222,6 +227,10 @@ h1 {
 .description-container {
     break-before: always;
     grid-column: 2/11;
+}
+
+.item-add-button {
+    margin: 0 1rem;
 }
 
 /****************** FORMS *******************/
