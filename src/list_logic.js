@@ -45,14 +45,15 @@ const storageAvailable = (type) => {
     }
 }
 
-const listItemFactory = (title, description, dueDate, priority) => {
+const listItemFactory = (title, description, dueDate, checked) => {
     
     let itemId = generateId(title, description);
     let itemTitle = title;
     let itemDescription = description;
     let itemDueDate = dueDate;
+    let itemChecked = checked;
 
-    return {itemId, itemTitle, itemDescription, itemDueDate}
+    return {itemId, itemTitle, itemDescription, itemDueDate, itemChecked}
 };
 
 const myProjects = (() => {
@@ -159,7 +160,9 @@ const myProjects = (() => {
 const myList = (() => {
 
     const addToList = (title, description, dueDate) => {
-        let newItem = listItemFactory(title, description, dueDate);
+        let newItem = listItemFactory(title, description, dueDate, false);
+        console.log("checked state of new list item");
+        console.log(newItem.itemChecked);
         
         // push newItem to currentProject's list property
         getList().push(newItem);

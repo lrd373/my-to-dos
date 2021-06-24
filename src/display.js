@@ -23,38 +23,11 @@ const listItemHTML = (listItemObj) => {
     let storedDueDate = new Date(listItemObj.itemDueDate);
     let storedOffsetMins = storedDueDate.getTimezoneOffset();
     let storedOffsetMs = storedOffsetMins * 60000;
-    console.log('storedOffsetMs ' + storedOffsetMs);
     let storedDueDateMs = Date.parse(listItemObj.itemDueDate); 
-    console.log('storedDueDate In Ms ' + storedDueDateMs);
     let dueDateUTCMs = +storedDueDateMs + +storedOffsetMs;
     let dueDate = new Date(dueDateUTCMs);
     
     
-    if (dueDate) {
-    // convert dueDate from local time back to UTC
-    let dueDateOffsetMins = dueDate.getTimezoneOffset();
-    let dueDateOffsetHours = dueDateOffsetMins/60;
-    console.log("diff btwn EST and UTC in hours");
-    console.log(dueDateOffsetHours);
-    console.log("due date hours + offset hours");
-    console.log(dueDate.getHours() + dueDateOffsetHours);
-    // if (dueDate.getHours() + dueDateOffsetHours >= 24) {
-    //     // increase dueDate day by 1
-    //     console.log(`${dueDate.getFullYear()}, ${dueDate.getMonth()},${dueDate.getDay() + 1}`)
-    //     dueDate = new Date(
-    //         dueDate.getFullYear(),
-    //         dueDate.getMonth(),
-    //         dueDate.getDay() + 1
-    //     );
-    // } else if (dueDate.getHours() + dueDateOffsetHours < 0) {
-    //     // decrease dueDate day by 1
-    //     dueDate = new Date(
-    //         dueDate.getFullYear(),
-    //         dueDate.getMonth(),
-    //         dueDate.getDay() - 1
-    //     );
-    // }
-}
     let description = listItemObj.itemDescription;
 
 
