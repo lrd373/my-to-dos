@@ -20,13 +20,17 @@ const listItemHTML = (listItemObj) => {
     // so it will not agree with the UTC time the user selected earlier
     // SO --> need to transform the local time below back into UTC to
     //  agree with what user wanted...
-    let storedDueDate = new Date(listItemObj.itemDueDate);
-    let storedOffsetMins = storedDueDate.getTimezoneOffset();
-    let storedOffsetMs = storedOffsetMins * 60000;
-    let storedDueDateMs = Date.parse(listItemObj.itemDueDate); 
-    let dueDateUTCMs = +storedDueDateMs + +storedOffsetMs;
-    let dueDate = new Date(dueDateUTCMs);
+    let dueDate = new Date(listItemObj.itemDueDate);
+    console.log(Date.parse(dueDate));
     
+    if (Date.parse(dueDate) !== 0 && !isNaN(Date.parse(dueDate))) {
+        let storedDueDate = new Date(listItemObj.itemDueDate);
+        let storedOffsetMins = storedDueDate.getTimezoneOffset();
+        let storedOffsetMs = storedOffsetMins * 60000;
+        let storedDueDateMs = Date.parse(listItemObj.itemDueDate); 
+        let dueDateUTCMs = +storedDueDateMs + +storedOffsetMs;
+        dueDate = new Date(dueDateUTCMs);
+    }
     
     let description = listItemObj.itemDescription;
 
@@ -44,8 +48,8 @@ const listItemHTML = (listItemObj) => {
         checkbox.setAttribute('type', 'checkbox');
         checkbox.classList.add("item-checkbox");
         checkbox.addEventListener("click", () => {
-            console.log('duedate at time of checkbox click');
-            console.log(dueDate);
+            if (Date.parse(dueDate) === 0 || isNaN(Date.parse(dueDate))) 
+            dueDate = "";
             myList.editList(
                 id, title, description, dueDate, checkbox.checked
             );
