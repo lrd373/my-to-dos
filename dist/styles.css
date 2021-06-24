@@ -158,21 +158,13 @@ h1 {
 }
 
 .item-checkbox {
-    color: transparent;
-    text-shadow: 0 0 0 rgba(250, 242, 215, 0.692);
-    background-color: var(--light-green);
-    border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     font-size: 0.65em;
     width: 1rem;
     height: 1rem;
-    transition: background-color 0.5s;
 }
 
-.item-checkbox:hover {
-    background-color: var(--dark-green);
+.item-checkbox:checked+h3{
+    text-decoration: line-through;
 }
 
 .checked {
