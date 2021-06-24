@@ -26,8 +26,10 @@ input, textarea {
     background-color: transparent;
     border: solid 2px var(--dark-green);
     border-radius: 5px;
+    font-size: 1.25rem;
     color: var(--dark-green);
     height: 30px;
+    width: 100%;
 }
 
 .submit-button {
@@ -36,9 +38,9 @@ input, textarea {
     border-radius: 5px;
     color: var(--dark-green);
     font-size: 0.9em;
-    width: 110px;
+    padding: 0 0.5rem;
     height: 35px;
-    transition: width 0.5s;
+    transition: padding 0.5s;
 }
 
 textarea {
@@ -46,7 +48,8 @@ textarea {
 }
 
 .submit-button:hover{
-    width: 130px;
+    padding: 0 0.8rem;
+    transition: padding 0.5s;
 }
 
 
@@ -72,12 +75,14 @@ h1 {
 }
 
 #delete-project-button {
-    width: 150px;
+    padding: 0 0.5rem;
     height: 35px;
+    transition: padding 0.5s;
  }
 
  #delete-project-button:hover{
-    width: 175px;
+    padding: 0 0.8rem;
+    transition: padding 0.5s;
  }
 
 /****************** PROJECT BUTTONS *******************/
@@ -95,12 +100,11 @@ h1 {
     display: block;
     font-size: 1.25em;
     margin: 5px 0;
-    transition: color 0.5s, text-shadow 0.5s;
+    transition: color 0.5s;
 }
 
 .project-button:hover {
-    color: rgba(250, 242, 215, 0.555);
-    text-shadow: 1px 1px var(--dark-green);
+    color: white;
 }
 
 #my-projects {
@@ -109,7 +113,9 @@ h1 {
 }
 
 #projects-divider {
-    color: var(--dark-green);
+    background-color: var(--dark-green);
+    height: 0.2rem;
+    border: none;
 }
 
 
@@ -127,7 +133,18 @@ h1 {
     display: grid;
     grid-template-columns: repeat(10,1fr);
     align-items: center;
-    margin: 10px 0;
+    margin: 1rem 0;
+}
+
+.list-item-title {
+    margin: 0;
+}
+
+.list-item-icon {
+    display: none;
+    width: 1rem;
+    height: 1rem;
+    transform: scaleY(-1);
 }
 
 .list-item-container p {
@@ -205,11 +222,7 @@ h1 {
 .description-container {
     break-before: always;
     grid-column: 2/11;
- }
-
- .list-item-description {
-     display: none;
- }
+}
 
 /****************** FORMS *******************/
 #form-container, #project-form-container {
@@ -235,7 +248,7 @@ form {
     font-size: 1.25em;
     font-weight: bold;
     margin: 15% auto;
-    padding: 10px;
+    padding: 1rem 2rem;
     width: 30%;
  }
 

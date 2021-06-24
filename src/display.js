@@ -34,9 +34,11 @@ const listItemHTML = (listItemObj) => {
             if (toggleDescription.classList.contains("spin-and-reveal")) {
                 toggleDescription.classList.remove("spin-and-reveal");
                 itemDescription.style.display = "none";
+                descriptionIcon.style.display = "none";
             } else {
                 toggleDescription.classList.add("spin-and-reveal");
                 itemDescription.style.display = "inline-block";
+                descriptionIcon.style.display = "inline-block";
             }
             
         });
@@ -91,9 +93,13 @@ const listItemHTML = (listItemObj) => {
     let descriptionDiv = document.createElement("div");
     descriptionDiv.classList.add("description-container");
 
+        let descriptionIcon = document.createElement("img");
+        descriptionIcon.setAttribute('src', "images/curve-arrow.png");
+        descriptionIcon.classList.add('list-item-icon');
         let itemDescription = document.createElement("p");
         itemDescription.classList.add("list-item-description");
         itemDescription.textContent = description;
+        descriptionDiv.appendChild(descriptionIcon);
         descriptionDiv.appendChild(itemDescription);
 
         let newDescriptionInput = document.createElement("textarea");
@@ -143,6 +149,7 @@ const listItemHTML = (listItemObj) => {
 
     const toggleTaskForm = () => {
 
+        // if form is visible --> toggle form updates task values and hides inputs
         if (submitEdits.style.display !== "none") {
             itemTitle.textContent = newTitleInput.value;
             itemTitle.style.display = "inline";
@@ -172,7 +179,7 @@ const listItemHTML = (listItemObj) => {
             }
             newDescriptionInput.style.display = "none";
             
-
+        // if form is NOT visible --> toggle form reveals input fields
         } else { 
             itemTitle.style.display = "none";
             toggleDescription.style.display = "none";
@@ -189,7 +196,7 @@ const listItemHTML = (listItemObj) => {
             itemDescription.style.display = "none";
             newDescriptionInput.style.display = "inline";
         }
-    }
+    };
 
     return itemDiv;
 }; 
