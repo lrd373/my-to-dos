@@ -46,6 +46,7 @@ const listItemHTML = (listItemObj) => {
 
         let checkbox = document.createElement("input");
         checkbox.setAttribute('type', 'checkbox');
+        checkbox.checked = listItemObj.itemChecked;
         checkbox.classList.add("item-checkbox");
         checkbox.addEventListener("click", () => {
             if (Date.parse(dueDate) === 0 || isNaN(Date.parse(dueDate))) 
