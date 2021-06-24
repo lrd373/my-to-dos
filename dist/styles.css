@@ -1,6 +1,7 @@
 :root {
     --dark-green: rgb(37, 51, 38);
     --light-green: #79966d;
+    --beige: rgb(250, 242, 215);
 }
 
 body {
@@ -121,7 +122,7 @@ h1 {
 
 /****************** LIST *******************/
 #list-container {
-    background-color: rgba(250, 242, 215, 0.555);
+    background-color: var(--beige);
     color: rgb(37, 51, 38);
     grid-column: 1/8;
     grid-row: 2/11;
@@ -250,7 +251,7 @@ h1 {
  }
  
 form {
-    background-color: var(--light-green);
+    background-color: var(--beige);
     border: none;
     border-radius: 50px;
     color: var(--dark-green);
