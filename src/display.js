@@ -44,15 +44,12 @@ const listItemHTML = (listItemObj) => {
         checkbox.setAttribute('type', 'checkbox');
         checkbox.classList.add("item-checkbox");
         checkbox.addEventListener("click", () => {
-            if (itemTitle.classList.contains("checked")) {
-                itemTitle.classList.remove("checked");
-                checkbox.textContent = "";
-                checkbox.style.backgroundColor = "#668658";
-            } else {
-                itemTitle.classList.add("checked");
-                checkbox.textContent = "✔️";
-                checkbox.style.backgroundColor = "rgb(37, 51, 38)"
-            }
+            console.log('duedate at time of checkbox click');
+            console.log(dueDate);
+            myList.editList(
+                id, title, description, dueDate, checkbox.checked
+            );
+            // add css to style item title when checked
         });
 
         titleDiv.appendChild(checkbox);

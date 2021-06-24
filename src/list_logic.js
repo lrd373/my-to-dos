@@ -45,9 +45,11 @@ const storageAvailable = (type) => {
     }
 }
 
-const listItemFactory = (title, description, dueDate, checked) => {
-    
-    let itemId = generateId(title, description);
+const listItemFactory = (title, description, dueDate, checked, id) => {
+    let itemId = id;
+    if (!id) {
+        itemId = generateId(title, description);
+    }
     let itemTitle = title;
     let itemDescription = description;
     let itemDueDate = dueDate;
@@ -173,9 +175,9 @@ const myList = (() => {
         listContainer();
     }
 
-    const editList = (id, title, description, dueDate) => {
+    const editList = (id, title, description, dueDate, checked) => {
         let itemIndex = getList().findIndex(itemObj => itemObj.itemId == id);
-        let editedItem = listItemFactory(title, description, dueDate);
+        let editedItem = listItemFactory(title, description, dueDate, checked, id);
 
         if (itemIndex !== -1) {
             getList()[itemIndex] = editedItem;
