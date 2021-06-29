@@ -34,7 +34,6 @@ const itemForm = (() => {
         });
         contentDiv.appendChild(exitButton);
 
-
         let titleLabel = document.createElement("label");
         titleLabel.setAttribute("for","title-input");
         titleLabel.textContent = "Title";
