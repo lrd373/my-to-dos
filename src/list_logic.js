@@ -98,6 +98,7 @@ const myProjects = (() => {
         _projects.push(listObj);
         setLocalStorage();
         projectButtonContainer();
+        listContainer();
     }
 
 
@@ -106,6 +107,7 @@ const myProjects = (() => {
         _projects.splice(projectIndex,1);
         setLocalStorage();
         projectButtonContainer();
+        listContainer();
     }
 
     const getProject = (id) => {

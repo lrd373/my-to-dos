@@ -97,6 +97,7 @@ const listItemHTML = (listItemObj) => {
     let dueDateDiv = document.createElement("div");
     dueDateDiv.classList.add("duedate-container");
         let dueText = document.createElement("p");
+        dueText.classList.add("dueText");
         dueText.textContent = "Due: ";
         let itemDueDate = document.createElement("p");
         itemDueDate.classList.add("list-item-duedate");
@@ -104,8 +105,9 @@ const listItemHTML = (listItemObj) => {
         if (listItemObj.itemDueDate) {
             itemDueDate.textContent = dueDate.toLocaleDateString();
             dueDateDiv.appendChild(dueText);
+            dueDateDiv.appendChild(itemDueDate);
         } 
-        dueDateDiv.appendChild(itemDueDate);
+        
 
         let newDateInput = document.createElement("input");
         newDateInput.setAttribute("type", "date");
