@@ -1,0 +1,430 @@
+:root {
+    --dark-green: rgb(37, 51, 38);
+    --light-green: #79966d;
+    --beige: rgb(250, 242, 215);
+}
+
+/* Keeps padding from extending content beyond viewport */
+* , *:before, *:after{ 
+    box-sizing:border-box; 
+    -moz-box-sizing:border-box; 
+    -webkit-box-sizing:border-box; 
+    -ms-box-sizing:border-box;
+  }
+
+
+body {
+    font-family: "Roboto", sans-serif;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#content {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    width: 100%;
+    height: 100%;
+}
+
+input, label, textarea {
+    display: block;
+    font-family: "Roboto", sans-serif;
+    margin: 5px;
+}
+
+input, textarea {
+    background-color: transparent;
+    border: solid 2px var(--dark-green);
+    border-radius: 5px;
+    font-size: 1.25rem;
+    color: var(--dark-green);
+    height: 30px;
+    width: 100%;
+}
+
+.submit-button {
+    background-color: transparent;
+    border: solid 2px var(--dark-green);
+    border-radius: 5px;
+    color: var(--dark-green);
+    font-size: 0.9em;
+    padding: 0 0.5rem;
+    height: 35px;
+    transition: padding 0.5s;
+}
+
+textarea {
+    height: auto;
+}
+
+.submit-button:hover{
+    padding: 0 0.8rem;
+    transition: padding 0.5s;
+}
+
+
+/****************** HEADER *******************/
+header {
+    background-color: var(--light-green);
+    grid-column: 1/11;
+    grid-row: 1/2;
+}
+#header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0 15px 10px;
+}
+
+h1 {
+    color: var(--dark-green);
+    display: inline;
+    font-family: "Orelega One", serif;
+    font-size: 3em;
+    margin-bottom: 5px;
+}
+
+#delete-project-button {
+    padding: 0 0.5rem;
+    height: 35px;
+    width: max-content;
+    transition: padding 0.5s;
+ }
+
+ #delete-project-button:hover{
+    padding: 0 0.8rem;
+    transition: padding 0.5s;
+ }
+
+/****************** PROJECT BUTTONS *******************/
+#project-button-container {
+    background-color: #6686588a;
+    grid-column: 8/11;
+    grid-row: 2/11;
+    padding: 10px;
+    height: 100%;;
+    text-align: left;
+}
+
+.project-button{
+    background-color: transparent;
+    border: none;
+    color: var(--dark-green);
+    display: block;
+    font-size: 1.25em;
+    margin: 5px 0;
+    transition: color 0.5s;
+}
+
+.project-button:hover {
+    color: white;
+}
+
+#my-projects {
+    color: var(--dark-green);
+    margin: 15px 0 0;
+}
+
+#projects-divider {
+    background-color: var(--dark-green);
+    height: 0.2rem;
+    border: none;
+}
+
+
+/****************** LIST *******************/
+#list-container {
+    background-color: var(--beige);
+    color: rgb(37, 51, 38);
+    grid-column: 1/8;
+    grid-row: 2/11;
+    height: 100%;
+    margin: 0;
+    padding: 10px;
+}
+
+.list-item-container {
+    display: grid;
+    grid-template-columns: repeat(10,1fr);
+    grid-template-rows: 1fr 1fr;
+    align-items: center;
+    margin: 1rem;
+}
+
+.list-item-title {
+    margin: 0.1rem 0.1rem 0.1rem 0.5rem;
+}
+
+.list-item-icon {
+    display: none;
+    width: 1rem;
+    height: 1rem;
+    transform: scaleY(-1);
+}
+
+.list-item-description {
+  display: none;
+  overflow-wrap: break-word;
+  padding-left: 0.2rem;
+}
+
+.list-item-container p {
+    margin: 0;
+}
+
+.item-checkbox {
+    font-size: 0.65em;
+    min-width: 15px !important;
+    width: 1rem;
+    height: 1rem;
+}
+
+.item-checkbox:checked+h3{
+    text-decoration: line-through;
+}
+
+.checked {
+    text-decoration: line-through;
+}
+
+.item-title-container {
+    display: flex;
+    grid-column: 1/8;
+    align-items: baseline;
+}
+
+.toggle-description {
+    color: transparent;  
+    text-shadow: 0 0 0 var(--dark-green);
+    background-color: transparent;
+    border: none;
+    transform: rotate(90deg);
+    transition: transform 0.25s;
+}
+
+.spin-and-reveal {
+    transform: rotate(180deg);
+}
+
+.list-item-duedate {
+    grid-column: 8/9;
+}
+
+.item-button-container{
+    grid-column: 9/11;
+    margin-right: 5px;
+    text-align: right;
+}
+
+.img-button {
+    background-color: transparent;
+    border: none;
+    padding: 0 15px;
+    width: 15px;
+    height: 15px;
+}
+
+.img-button img {
+    width: 15px;
+    transition: width 0.5s, height 0.5s;
+}
+
+.img-button img:hover {
+    width: 20px;
+}
+
+.description-container {
+    break-before: always;
+    grid-column: 2/11;
+}
+
+.item-add-button {
+    margin: 0 1rem;
+}
+
+/****************** FORMS *******************/
+#form-container, #project-form-container {
+    display: none;
+    text-align: left;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%;
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+ }
+ 
+form {
+    background-color: var(--beige);
+    border: none;
+    border-radius: 50px;
+    color: var(--dark-green);
+    font-size: 1.25em;
+    font-weight: bold;
+    margin: 15% auto;
+    padding: 1rem 2rem;
+    width: 30%;
+ }
+
+.form-content-container {
+    padding: 15px;
+ }
+
+.form-submit-button {
+    font-size: 0.8em;
+    margin: 10px 5px 0;
+}
+
+.form-exit-button {
+    color: transparent;
+    background-color: transparent;
+    border: none;
+    padding: 8px;
+    text-shadow: 0 0 var(--dark-green);
+}
+
+.form-exit-button:hover {
+    text-shadow: 0 0 rgba(250, 242, 215, 0.692);
+}
+
+/****************** FOOTER *******************/
+
+#flaticon {
+    font-size: 0.75em;
+    position: fixed;
+    bottom: 0;
+}
+
+/************ Small Screen Sizes ************/
+
+@media (max-width: 500px) {
+    /* General */
+    body {
+        background-color: var(--beige);
+        flex-flow: column;
+        margin: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    #content {
+        display: flex;
+        flex-flow: column;
+       
+    }
+
+    footer {
+        position: fixed;
+        bottom: 0;
+    }
+
+    /* Project Header */
+    #header-container {
+        align-items: center;
+        flex: 0 1 auto;
+        padding: 1rem;
+    }
+
+    #header-container h1 {
+        margin: 0;
+        font-size: 2rem;
+    }
+
+    #delete-project-button {
+        padding: 0 0.5rem;
+        height: 35px;
+        width: min-content;
+        transition: padding 0.5s;
+    }
+
+    #delete-project-button:hover{
+       padding: 0 0.8rem;
+    }
+
+    /* Project Button Section */
+
+    #project-button-container {
+        flex: 0 1 auto;
+        padding: 1rem 0 1rem 1rem;
+        width: 100%;
+    }
+
+    /* List area */
+    #list-container {
+        flex: 1 1 5;
+        padding: 0.5rem 0 2rem;
+    }
+
+    .list-item-container {
+        margin: 0;
+        padding: 0.5rem 0 0.5rem 0.5rem;
+        width: 100%;
+    }
+
+    .dueText, .list-item-duedate {
+        padding-left: 1.5rem;
+    }
+
+    .item-button-container {
+        display: flex;
+        justify-content: flex-start;
+        grid-column: 1/11;
+        grid-row: 2/11;
+    }
+
+    .description-container {
+        padding-left: 1.5rem;
+        padding-top: 0.5rem;
+    }
+
+    .img-button {
+        margin: 0.5rem 0;
+    }
+
+    .img-button img {
+        width: 20px;
+        transition: width 0.5s, height 0.5s;
+    }
+    
+    .img-button img:hover {
+        width: 25px;
+    }
+
+
+    /* Form Modal */
+     
+    form {
+        margin: 10% auto;
+        padding: 1rem 2rem;
+        width: 80%;
+     }
+    
+    .form-submit-button {
+        font-size: 0.8em;
+        margin: 10px 5px 0;
+    }
+    
+    .form-exit-button {
+        color: transparent;
+        background-color: transparent;
+        border: none;
+        padding: 8px;
+        text-shadow: 0 0 var(--dark-green);
+    }
+    
+    .form-exit-button:hover {
+        text-shadow: 0 0 rgba(250, 242, 215, 0.692);
+    }
+    
+
+    /* Flaticon Footer */
+    #flaticon {
+        background-color: var(--beige);
+        position: relative;
+    }
+}
