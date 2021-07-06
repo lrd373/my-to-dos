@@ -119,6 +119,7 @@ const projectForm = (() => {
         let form = document.createElement("form");
         let exitButton = document.createElement("button");
         exitButton.classList.add("form-exit-button");
+        exitButton.setAttribute('type', 'button');
         exitButton.textContent = "❌";
         exitButton.addEventListener("click", closeForm);
         form.appendChild(exitButton);

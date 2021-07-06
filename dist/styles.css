@@ -4,6 +4,7 @@
     --beige: rgb(250, 242, 215);
 }
 
+/* Keeps padding from extending content beyond viewport */
 * , *:before, *:after{ 
     box-sizing:border-box; 
     -moz-box-sizing:border-box; 
@@ -15,6 +16,8 @@
 body {
     font-family: "Roboto", sans-serif;
     margin: 0;
+    width: 100%;
+    height: 100%;
 }
 
 #content {
@@ -86,6 +89,7 @@ h1 {
 #delete-project-button {
     padding: 0 0.5rem;
     height: 35px;
+    width: max-content;
     transition: padding 0.5s;
  }
 
@@ -101,6 +105,7 @@ h1 {
     grid-row: 2/11;
     padding: 10px;
     height: 100%;;
+    text-align: left;
 }
 
 .project-button{
@@ -295,32 +300,64 @@ form {
     bottom: 0;
 }
 
+/************ Small Screen Sizes ************/
+
 @media (max-width: 500px) {
     /* General */
     body {
+        background-color: var(--beige);
+        flex-flow: column;
         margin: 0;
         width: 100%;
+        height: 100%;
     }
 
     #content {
-        display: block;
-        width: 100%;
+        display: flex;
+        flex-flow: column;
+       
+    }
+
+    footer {
+        position: fixed;
+        bottom: 0;
+    }
+
+    /* Project Header */
+    #header-container {
+        align-items: center;
+        flex: 0 1 auto;
+        padding: 1rem;
+    }
+
+    #header-container h1 {
+        margin: 0;
+        font-size: 2rem;
+    }
+
+    #delete-project-button {
+        padding: 0 0.5rem;
+        height: 35px;
+        width: min-content;
+        transition: padding 0.5s;
+    }
+
+    #delete-project-button:hover{
+       padding: 0 0.8rem;
     }
 
     /* Project Button Section */
 
     #project-button-container {
+        flex: 0 1 auto;
         padding: 1rem 0 1rem 1rem;
         width: 100%;
     }
 
     /* List area */
     #list-container {
-        grid-column: 1/11;
-        grid-auto-rows: max-content;
-        height: 100%;
-        width: 100%;
-        padding: 0.5rem 0 0;
+        flex: 1 1 5;
+        padding: 0.5rem 0 2rem;
     }
 
     .list-item-container {
@@ -362,9 +399,9 @@ form {
     /* Form Modal */
      
     form {
-        margin: 10%;
+        margin: 10% auto;
         padding: 1rem 2rem;
-        width: 60%;
+        width: 80%;
      }
     
     .form-submit-button {
