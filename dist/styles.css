@@ -387,7 +387,7 @@ form {
     }
 
     .img-button img {
-        width: 20px;
+        width: 1rem;
         transition: width 0.5s, height 0.5s;
     }
     
